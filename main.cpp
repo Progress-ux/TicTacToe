@@ -23,7 +23,7 @@ char enter_cell()
 
 int main(int argc, const char** argv) {
    
-   std::vector<char> cells = { '1', '2', '3', '4', '5', '6', '7', '8', '9', };
+   std::vector<char> cells = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
    char number_cell;
    
    field_rendering(cells);
