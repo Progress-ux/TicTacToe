@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 
-void field_rendering(std::vector<char>& cells) 
+void field_rendering(const std::vector<char>& cells) 
 {
    std::cout << cells[0] << " | " << cells[1] << " | " << cells[2] << "\n";   
    std::cout << "---+---+---\n";
@@ -11,23 +11,39 @@ void field_rendering(std::vector<char>& cells)
    std::cout << cells[6] << " | " << cells[7] << " | " << cells[8] << "\n";   
 }
 
-int enter_cell()
-{
-   int number_cell;
-
-   std::cout << "Enter number cell: ";
-   std::cin >> number_cell;
-
-   return number_cell;
-}
-
 int main(int argc, const char** argv) {
    
    std::vector<char> cells = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
    int number_cell;
-   
-   field_rendering(cells);
-   number_cell = enter_cell();
+   char currentPlayer = 'x';
+
+   while (true)
+   {
+      field_rendering(cells);
+      std::cout << "Player [" << currentPlayer << "] enter cell(0-8): ";
+
+      
+      if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
+      {
+         system("clear");
+         std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
+         std::cin.clear();
+         std::cin.ignore(10000, '\n');
+         continue;
+      }
+      
+      if (cells[number_cell] == 'x' || cells[number_cell] == 'o')
+      {
+         system("clear");
+         std::cout << "--- Cell " << number_cell << " is already taken!\n";
+         continue;
+      }
+      
+      cells[number_cell] = currentPlayer;
+      currentPlayer = (currentPlayer == 'x') ? 'o' : 'x';
+
+      system("clear");
+   }
 
    return 0;
 }
