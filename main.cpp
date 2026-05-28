@@ -11,6 +11,26 @@ void field_rendering(const std::vector<char>& cells)
    std::cout << cells[6] << " | " << cells[7] << " | " << cells[8] << "\n";   
 }
 
+bool victory_check(const std::vector<char>& cells) 
+{
+   static const std::vector<std::vector<int>> winning_combinations = { 
+      {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // lines
+      {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // columns
+      {0, 4, 8}, {2, 4, 6}             // diagonals
+   };
+   
+   for (const std::vector<int>& combo : winning_combinations)
+   {
+      if (cells[combo[0]] == cells[combo[1]] && 
+          cells[combo[1]] == cells[combo[2]]) 
+      {
+         return true;
+      }
+   }
+
+   return false;
+}
+
 int main(int argc, const char** argv) {
    
    std::vector<char> cells = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
@@ -48,6 +68,14 @@ int main(int argc, const char** argv) {
       }
       
       cells[number_cell] = currentPlayer;
+
+      if (victory_check(cells)) 
+      {
+         system("clear");
+         field_rendering(cells);
+         std::cout << "You [" << currentPlayer << "] won!\n";
+         break;
+      }
 
       i++;
       currentPlayer = (currentPlayer == 'x') ? 'o' : 'x';
