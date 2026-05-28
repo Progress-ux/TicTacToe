@@ -15,11 +15,19 @@ int main(int argc, const char** argv) {
    
    std::vector<char> cells = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
    int number_cell;
+   unsigned int i = 0;
    char currentPlayer = 'x';
 
    while (true)
    {
       field_rendering(cells);
+
+      if (i > 8)
+      {
+         std::cout << "Draw! All moves are over.\n";
+         break;
+      }
+
       std::cout << "Player [" << currentPlayer << "] enter cell(0-8): ";
 
       
@@ -40,6 +48,8 @@ int main(int argc, const char** argv) {
       }
       
       cells[number_cell] = currentPlayer;
+
+      i++;
       currentPlayer = (currentPlayer == 'x') ? 'o' : 'x';
 
       system("clear");
