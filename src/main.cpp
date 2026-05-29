@@ -31,6 +31,32 @@ std::unique_ptr<NetworkManager> createNetworkManager(char mode)
    }
 }
 
+int getNextMove(bool isMyTurn, TicTacToe& game, NetworkManager& network)
+{
+   if (isMyTurn)
+   {
+      int number_cell;
+
+      std::cout << "Your turn [" << game.getCurrentPlayer() << "].\n";
+      std::cout << "Enter cell (0-8): ";
+      
+      while (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
+      {
+         system("clear");
+         std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
+         std::cin.clear();
+         std::cin.ignore(10000, '\n');
+      }
+      network.sendMove(number_cell);
+      return number_cell;
+   }
+   else 
+   {
+      std::cout << "Waiting for opponent's move...\n";
+      return network.receiveMove();
+   }
+}
+
 int main(int argc, const char** argv) 
 {
    TicTacToe game;
@@ -53,45 +79,8 @@ int main(int argc, const char** argv)
       bool isMyTurn = (mode == 's' && game.getCurrentPlayer() == 'x') || 
                       (mode == 'c' && game.getCurrentPlayer() == 'o');
 
-      if (isMyTurn)
-      {
-         std::cout << "Your turn [" << game.getCurrentPlayer() << "].\n";
-         std::cout << "Enter cell (0-8): ";
-         
-         if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
-         {
-            system("clear");
-            std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            continue;
-         }
-         
-         if (!game.canMove(number_cell))
-         {
-            system("clear");
-            std::cout << "--- Cell " << number_cell << " is already taken!\n";
-            continue;
-         }
-         
-         game.move(number_cell);
-         network->sendMove(number_cell);
-      } 
-      else 
-      {
-         std::cout << "Waiting for opponent's move...\n";
-         int opponentMove = network->receiveMove();
-         if (opponentMove >= 0) 
-         {
-            game.move(opponentMove);
-         } 
-         else 
-         {
-            system("clear");
-            std::cout << "--- Failed to receive opponent's move. Please check your connection.\n";
-            break;
-         }
-      }
+      int move = getNextMove(isMyTurn, game, *network);
+      if (move < 0) break;
 
       if (game.checkWin()) 
       {
