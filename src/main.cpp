@@ -26,7 +26,24 @@ std::unique_ptr<NetworkManager> createNetworkManager(char mode)
    else 
    {
       std::unique_ptr<Client> c = std::make_unique<Client>();
-      c->connect("127.0.0.1", 53000);
+      const int max_attempts = 5;
+      bool connected = false;
+
+      for (int i = 1; i <= max_attempts; ++i)
+      {
+         std::cout << "Connecting to server... Attempt " << i << "\n";
+         if (c->connect("127.0.0.1", 53000, 3.0f))
+         {
+            connected = true;
+            break;
+         }
+         sf::sleep(sf::seconds(1));
+      }
+      
+      if (!connected)
+      {
+         throw std::runtime_error("Error: Server did not respond");
+      }
       return c;
    }
 }
@@ -75,9 +92,15 @@ int main(int argc, const char** argv)
 {
    TicTacToe game;
    int number_cell;
-   
+   std::unique_ptr<NetworkManager> network = std::unique_ptr<NetworkManager>();
+
    char mode = getMode();
-   std::unique_ptr<NetworkManager> network = createNetworkManager(mode);
+   try {
+      network = createNetworkManager(mode);
+   } catch (const std::exception& e) {
+      std::cerr << e.what() << std::endl;
+      return -1;
+   }
 
    while (true)
    {

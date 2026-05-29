@@ -44,10 +44,10 @@ public:
 class Client : public NetworkManager
 {
 public:
-   bool connect(const std::string& ipString, unsigned short port) 
+   bool connect(const std::string& ipString, unsigned short port, float timeout) 
    {
       sf::IpAddress ip = sf::IpAddress::resolve(ipString).value_or(sf::IpAddress::Any);
-      return socket.connect(ip, port) == sf::Socket::Status::Done;
+      return socket.connect(ip, port, sf::seconds(timeout)) == sf::Socket::Status::Done;
    }
 
 };
