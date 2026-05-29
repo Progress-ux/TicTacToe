@@ -116,7 +116,11 @@ int main(int argc, const char** argv)
                       (mode == 'c' && game.getCurrentPlayer() == 'o');
 
       int move = getNextMove(isMyTurn, game, *network);
-      if (move < 0) break;
+      if (move < 0) 
+      {
+         std::cerr << "The connection was broken." << std::endl;
+         break;
+      }
       game.move(move);
 
       if (game.checkWin()) 
