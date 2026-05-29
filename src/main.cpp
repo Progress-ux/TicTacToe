@@ -15,6 +15,22 @@ char getMode()
    }
 }
 
+std::unique_ptr<NetworkManager> createNetworkManager(char mode)
+{
+   if (mode == 's') 
+   {
+      std::unique_ptr<Server> s = std::make_unique<Server>();
+      s->start(53000);
+      return s;
+   } 
+   else 
+   {
+      std::unique_ptr<Client> c = std::make_unique<Client>();
+      c->connect("127.0.0.1", 53000);
+      return c;
+   }
+}
+
 int main(int argc, const char** argv) 
 {
    TicTacToe game;
@@ -22,18 +38,7 @@ int main(int argc, const char** argv)
    int number_cell;
 
    char mode = getMode();
-   if (mode == 's') 
-   {
-      std::unique_ptr<Server> s = std::make_unique<Server>();
-      s->start(53000);
-      network = std::move(s);
-   } 
-   else 
-   {
-      std::unique_ptr<Client> c = std::make_unique<Client>();
-      c->connect("127.0.0.1", 53000);
-      network = std::move(c);
-   }
+   auto network = createNetworkManager(mode);
 
    while (true)
    {
