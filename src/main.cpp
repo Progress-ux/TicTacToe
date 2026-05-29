@@ -36,17 +36,31 @@ int getNextMove(bool isMyTurn, TicTacToe& game, NetworkManager& network)
    if (isMyTurn)
    {
       int number_cell;
-
-      std::cout << "Your turn [" << game.getCurrentPlayer() << "].\n";
-      std::cout << "Enter cell (0-8): ";
-      
-      while (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
+      while (true) 
       {
-         system("clear");
-         std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
-         std::cin.clear();
-         std::cin.ignore(10000, '\n');
+         std::cout << "Your turn [" << game.getCurrentPlayer() << "].\nEnter cell (0-8): ";
+         
+         if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
+         {
+            system("clear");
+            game.field_rendering();
+            std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+         }
+         
+         if (!game.canMove(number_cell)) 
+         {
+            system("clear");
+            game.field_rendering();
+            std::cout << "--- Cell " << number_cell << " is already taken!\n";
+            continue;
+         }
+         
+         break; 
       }
+      
       network.sendMove(number_cell);
       return number_cell;
    }
@@ -60,11 +74,10 @@ int getNextMove(bool isMyTurn, TicTacToe& game, NetworkManager& network)
 int main(int argc, const char** argv) 
 {
    TicTacToe game;
-   std::unique_ptr<NetworkManager> network = nullptr;
    int number_cell;
-
+   
    char mode = getMode();
-   auto network = createNetworkManager(mode);
+   std::unique_ptr<NetworkManager> network = createNetworkManager(mode);
 
    while (true)
    {
@@ -81,6 +94,7 @@ int main(int argc, const char** argv)
 
       int move = getNextMove(isMyTurn, game, *network);
       if (move < 0) break;
+      game.move(move);
 
       if (game.checkWin()) 
       {
