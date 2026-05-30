@@ -1,5 +1,7 @@
 #include "input_manager.hpp"
+
 #include <iostream>
+#include <limits>
 
 char InputManager::getMode()
 {
