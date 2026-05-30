@@ -106,12 +106,6 @@ int main(int argc, const char** argv)
    {
       game.field_rendering();
 
-      if (game.checkDraw())
-      {
-         std::cout << "Draw! All moves are over.\n";
-         break;
-      }
-
       bool isMyTurn = (mode == 's' && game.getCurrentPlayer() == 'x') || 
                       (mode == 'c' && game.getCurrentPlayer() == 'o');
 
@@ -121,6 +115,7 @@ int main(int argc, const char** argv)
          std::cerr << "The connection was broken." << std::endl;
          break;
       }
+      
       game.move(move);
 
       if (game.checkWin()) 
@@ -135,6 +130,14 @@ int main(int argc, const char** argv)
          {
             std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
          }
+         break;
+      }
+
+      if (game.checkDraw()) 
+      {
+         system("clear");
+         game.field_rendering();
+         std::cout << "It's a draw! No more moves left.\n";
          break;
       }
 
