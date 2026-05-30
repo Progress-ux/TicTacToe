@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(SFML 3.0 COMPONENTS Network REQUIRED)
+find_package(nlohmann_json 3.12.0 REQUIRED)
 
 add_executable(game 
    src/main.cpp 
@@ -16,5 +17,9 @@ add_executable(game
    src/config_manager.cpp
 )
 
-target_link_libraries(game SFML::Network)
+target_link_libraries(game 
+   SFML::Network 
+   nlohmann_json::nlohmann_json
+)
+
 target_include_directories(game PUBLIC include)
