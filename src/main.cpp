@@ -15,39 +15,6 @@ char getMode()
    }
 }
 
-std::unique_ptr<NetworkManager> createNetworkManager(char mode)
-{
-   if (mode == 's') 
-   {
-      std::unique_ptr<Server> s = std::make_unique<Server>();
-      s->start(53000);
-      return s;
-   } 
-   else 
-   {
-      std::unique_ptr<Client> c = std::make_unique<Client>();
-      const int max_attempts = 5;
-      bool connected = false;
-
-      for (int i = 1; i <= max_attempts; ++i)
-      {
-         std::cout << "Connecting to server... Attempt " << i << "\n";
-         if (c->connect("127.0.0.1", 53000, 3.0f))
-         {
-            connected = true;
-            break;
-         }
-         sf::sleep(sf::seconds(1));
-      }
-      
-      if (!connected)
-      {
-         throw std::runtime_error("Error: Server did not respond");
-      }
-      return c;
-   }
-}
-
 int getNextMove(bool isMyTurn, TicTacToe& game, NetworkManager& network)
 {
    if (isMyTurn)
@@ -96,7 +63,7 @@ int main(int argc, const char** argv)
 
    char mode = getMode();
    try {
-      network = createNetworkManager(mode);
+      network = NetworkManager::createNetworkManager(mode);
    } catch (const std::exception& e) {
       std::cerr << e.what() << std::endl;
       return -1;

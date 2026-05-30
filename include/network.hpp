@@ -2,12 +2,17 @@
 #include <SFML/Network.hpp>
 #include <string>
 
+class Server;
+class Client;
+
 class NetworkManager 
 {
 protected: 
    sf::TcpSocket socket;
 public:
    virtual ~NetworkManager() = default;
+
+   static std::unique_ptr<NetworkManager> createNetworkManager(char mode);
 
    void sendMove(int index) 
    {
