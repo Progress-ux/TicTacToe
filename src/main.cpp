@@ -15,49 +15,41 @@ char getMode()
    }
 }
 
-int getNextMove(bool isMyTurn, TicTacToe& game, NetworkManager& network)
+int getNextMove(TicTacToe& game)
 {
-   if (isMyTurn)
+   int number_cell;
+   while (true) 
    {
-      int number_cell;
-      while (true) 
+      std::cout << "Your turn [" << game.getCurrentPlayer() << "].\nEnter cell (0-8): ";
+      
+      if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
       {
-         std::cout << "Your turn [" << game.getCurrentPlayer() << "].\nEnter cell (0-8): ";
-         
-         if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
-         {
-            system("clear");
-            game.field_rendering();
-            std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
-         }
-         
-         if (!game.canMove(number_cell)) 
-         {
-            system("clear");
-            game.field_rendering();
-            std::cout << "--- Cell " << number_cell << " is already taken!\n";
-            continue;
-         }
-         
-         break; 
+         system("clear");
+         game.field_rendering();
+         std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
+         std::cin.clear();
+         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+         continue;
       }
       
-      network.sendMove(number_cell);
-      return number_cell;
+      if (!game.canMove(number_cell)) 
+      {
+         system("clear");
+         game.field_rendering();
+         std::cout << "--- Cell " << number_cell << " is already taken!\n";
+         continue;
+      }
+      
+      break; 
    }
-   else 
-   {
-      std::cout << "Waiting for opponent's move...\n";
-      return network.receiveMove();
-   }
+   
+   return number_cell;
 }
 
 int main(int argc, const char** argv) 
 {
    TicTacToe game;
+   int move;
    int number_cell;
    std::unique_ptr<NetworkManager> network = std::unique_ptr<NetworkManager>();
 
@@ -76,7 +68,17 @@ int main(int argc, const char** argv)
       bool isMyTurn = (mode == 's' && game.getCurrentPlayer() == 'x') || 
                       (mode == 'c' && game.getCurrentPlayer() == 'o');
 
-      int move = getNextMove(isMyTurn, game, *network);
+      if (isMyTurn) 
+      {
+         move = getNextMove(game);
+         network->sendMove(move);
+      }
+      else
+      {
+         std::cout << "Waiting for opponent's move...\n";
+         move = network->receiveMove();
+      }
+
       if (move < 0) 
       {
          std::cerr << "The connection was broken." << std::endl;
