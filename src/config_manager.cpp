@@ -9,3 +9,15 @@ ConfigManager &ConfigManager::getInstance()
 ConfigManager::~ConfigManager()
 {
 }
+
+void ConfigManager::load()
+{
+}
+
+void ConfigManager::save()
+{
+}
+
+void ConfigManager::resetToDefault()
+{
+}

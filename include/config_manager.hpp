@@ -25,5 +25,9 @@ public:
 
    float getTimeout() const { return timeout; }
    void setTimeout(float timeout) { this->timeout = timeout; }
+
+   void load();
+   void save();
+   void resetToDefault();
 };
 
