@@ -1,7 +1,9 @@
 #include "config_manager.hpp"
 
-ConfigManager::ConfigManager()
+ConfigManager &ConfigManager::getInstance()
 {
+   static ConfigManager instance;
+   return instance;
 }
 
 ConfigManager::~ConfigManager()
