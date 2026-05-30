@@ -6,10 +6,6 @@ ConfigManager &ConfigManager::getInstance()
    return instance;
 }
 
-ConfigManager::~ConfigManager()
-{
-}
-
 void ConfigManager::load()
 {
 }
