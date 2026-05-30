@@ -13,6 +13,7 @@ add_executable(game
    src/network.cpp 
    src/input_manager.cpp
    src/game_modes.cpp
+   src/config_manager.cpp
 )
 
 target_link_libraries(game SFML::Network)
