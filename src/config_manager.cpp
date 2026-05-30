@@ -20,7 +20,7 @@ void ConfigManager::load()
       return;
    }
    json data = json::parse(file);
-   
+
    serverIp = data.value("serverIp", "127.0.0.1");
    serverPort = data.value("serverPort", 53000);
    timeout = data.value("timeout", 15);
@@ -28,6 +28,18 @@ void ConfigManager::load()
 
 void ConfigManager::save()
 {
+   std::ofstream file("config.json");
+   if (!file.is_open())
+   {
+      throw std::runtime_error("Error: Could not save config");
+   }
+
+   json data;
+   data["serverIp"] = serverIp;
+   data["serverPort"] = serverPort;
+   data["timeout"] = timeout;
+
+   file << data.dump(4) << std::endl;
 }
 
 void ConfigManager::resetToDefault()
