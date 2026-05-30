@@ -1,11 +1,13 @@
 #include "network.hpp"
 
+#include "config_manager.hpp"
+
 std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(char mode)
 {
    if (mode == 's') 
    {
       std::unique_ptr<Server> s = std::make_unique<Server>();
-      s->start(53000);
+      s->start(ConfigManager::getInstance().getServerPort());
       return s;
    } 
    else 
@@ -16,7 +18,11 @@ std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(char mode)
 
       for (int i = 0; i < max_attempts; ++i)
       {
-         if (c->connect("127.0.0.1", 53000, 3.0f))
+         if (c->connect(
+            ConfigManager::getInstance().getServerIp(), 
+            ConfigManager::getInstance().getServerPort(), 
+            ConfigManager::getInstance().getTimeout()
+         ))
          {
             connected = true;
             break;
