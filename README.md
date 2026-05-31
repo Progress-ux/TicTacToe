@@ -70,9 +70,21 @@ vcpkg install sfml:x64-windows
 vcpkg install nlohmann-json:x64-windows
 ```
 
-**Сборка через CMake**
+## Команды компиляции
+
+**Arch Linux**
 
 ```bash
-mkdir build && cd build && cmake .. && make
+mkdir build && cd build
+cmake ..
+make
 ```
 
+**Windows**
+
+```cmd
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+```
