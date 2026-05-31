@@ -3,6 +3,7 @@
 
 namespace InputManager
 {
+   void clearScreen();
    char getMode();
    int getNextMove(TicTacToe& game);
 } // namespace InputManager

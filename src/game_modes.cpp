@@ -49,7 +49,7 @@ void GameMode::runMultiplayerGame()
 
       if (game.checkWin()) 
       {
-         system("clear");
+         InputManager::clearScreen();
          game.field_rendering();
          if (isMyTurn) 
          {
@@ -64,13 +64,13 @@ void GameMode::runMultiplayerGame()
 
       if (game.checkDraw()) 
       {
-         system("clear");
+         InputManager::clearScreen();
          game.field_rendering();
          std::cout << "It's a draw! No more moves left.\n";
          break;
       }
 
       game.switchPlayer();
-      system("clear");
+      InputManager::clearScreen();
    }
 }

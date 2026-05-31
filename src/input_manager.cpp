@@ -3,6 +3,15 @@
 #include <iostream>
 #include <limits>
 
+void InputManager::clearScreen()
+{
+#ifdef _WIN32
+   system("cls");
+#else
+   system("clear");
+#endif
+}
+   
 char InputManager::getMode()
 {
    char mode;
@@ -24,7 +33,7 @@ int InputManager::getNextMove(TicTacToe &game)
       
       if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
       {
-         system("clear");
+         InputManager::clearScreen();
          game.field_rendering();
          std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
          std::cin.clear();
@@ -34,7 +43,7 @@ int InputManager::getNextMove(TicTacToe &game)
       
       if (!game.canMove(number_cell)) 
       {
-         system("clear");
+         InputManager::clearScreen();
          game.field_rendering();
          std::cout << "--- Cell " << number_cell << " is already taken!\n";
          continue;
