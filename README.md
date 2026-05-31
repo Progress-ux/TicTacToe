@@ -61,27 +61,6 @@ sudo pacman -Syu
 sudo pacman -S gcc make cmake sfml nlohmann-json
 ```
 
-### Ubuntu/Debian
-
-```bash
-sudo apt update
-sudo apt install build-essential cmake libsfml-dev nlohmann-json3-dev
-```
-
-### Fedora
-
-```bash
-sudo dnf check-update
-sudo dnf install gcc-c++ make cmake SFML-devel json-devel
-```
-
-### macOS
-
-```bash
-brew update
-brew install cmake sfml nlohmann-json
-```
-
 ### Windows
 
 Стоит использовать пакетный менеджер `vcpkg` совместно с компилятором `MSVC` или `MinGW`
