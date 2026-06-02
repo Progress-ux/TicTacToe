@@ -1,6 +1,7 @@
 #include "menu_manager.hpp"
 
 #include <iostream>
+#include <limits>
 
 void MenuManager::showMainMenu()
 {
@@ -33,14 +34,27 @@ void MenuManager::showSettingsMenu(const std::string& serverIp, unsigned short s
    std::cout << "0. Back\n";
 }
 
-
 void MenuManager::runSettingsMenu()
 {
 }
 
 int MenuManager::getNumber()
 {
-   return 0;
+   int number;
+   while (true) 
+   {
+      if (std::cin >> number) 
+      {
+         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+         return number;
+      }
+
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::cout << "--- Invalid input! Please enter a valid number: ";
+   }
+   
+   return number;
 }
 
 void MenuManager::waitForEnter()
