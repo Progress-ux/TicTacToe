@@ -15,6 +15,7 @@ add_executable(game
    src/input_manager.cpp
    src/game_modes.cpp
    src/config_manager.cpp
+   src/menu_manager.cpp
 )
 
 target_link_libraries(game 
