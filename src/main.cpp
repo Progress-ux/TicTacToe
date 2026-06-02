@@ -1,6 +1,7 @@
 #include "game_modes.hpp"
 #include "config_manager.hpp"
 #include "input_manager.hpp"
+#include <limits>
 #include <iostream>
 
 void displayMenu()
