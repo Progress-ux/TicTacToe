@@ -1,5 +1,7 @@
 #include "menu_manager.hpp"
 
+#include "config_manager.hpp"
+#include "input_manager.hpp"
 #include <iostream>
 #include <limits>
 
@@ -60,10 +62,6 @@ namespace MenuManager
       std::cout << "0. Back\n";
    }
    
-   void runSettingsMenu()
-   {
-   }
-   
    int getNumber()
    {
       int number;
@@ -88,6 +86,149 @@ namespace MenuManager
       std::cout << "\nPress Enter to continue...";
       std::cin.get();
    }
+
+   void runSettingsMenu()
+   {
+      bool isRunningSettingsMenu = true;
+
+      bool isChanged = false;
+
+      std::string address = ConfigManager::getInstance().getServerIp();
+      unsigned short port = ConfigManager::getInstance().getServerPort();
+
+      while (isRunningSettingsMenu)
+      {
+         InputManager::clearScreen();
+
+         showSettingsMenu(address, port);
+
+         int number = getNumber();
+         if (number > 7 || number < 0)
+         {
+            std::cout << "--- Invalid input! Please enter a number from the list\n";
+            continue;
+         }
+
+         switch (number)
+         {
+         case 1:
+         {
+            std::cout << "New address: ";
+            std::cin >> address;
+            isChanged = true;
+            break;
+         }
+            
+         case 2:
+         {
+            while (true)
+            {
+               std::cout << "New port: ";
+               if (!(std::cin >> port))
+               {
+                  std::cin.clear();
+                  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                  std::cout << "\n--- Invalid input! Please enter new port\n\n";
+                  continue;
+               }
+               break;
+            }
+            isChanged = true;
+            break;
+         }
+
+         case 3:
+         {
+            // TODO: Add new parameter to ConfigManager: username
+            break;
+         }
+
+         case 4:
+         {
+            // TODO: Add new parameter to ConfigManager: language
+            break;
+         }
+
+         case 5:
+         {
+            if(!isChanged)
+               break;
+            
+            std::cout << "Are you sure you want to save the settings? [y/N]: ";
+            
+            if(getYesOrNot() != 'y')
+            {
+               std::cout << "Settings not saved!\n";
+               waitForEnter();
+               break;
+            }
+
+            ConfigManager::getInstance().setServerIp(address);
+            ConfigManager::getInstance().setServerPort(port);
+            ConfigManager::getInstance().save();
+
+            std::cout << "Settings saved successfully!\n";
+            isChanged = false;
+            waitForEnter();
+
+            break;
+         }
+
+         case 6:
+         {
+            if(!isChanged)
+               break;
+            
+            std::cout << "Are you sure you want to reset the changes? [y/N]: ";
+            if(getYesOrNot() != 'y')
+               break;
+            
+            address = ConfigManager::getInstance().getServerIp();
+            port = ConfigManager::getInstance().getServerPort();
+
+            isChanged = false;
+
+            std::cout << "Settings changes reset\n";
+            waitForEnter();
+
+            break;
+         }
+
+         case 7:
+         {
+            std::cout << "Are you sure you want to reset your settings to default values? [y/N]: ";
+            if(getYesOrNot() != 'y')
+               break;
+            
+            ConfigManager::getInstance().resetToDefault();
+
+            address = ConfigManager::getInstance().getServerIp();
+            port = ConfigManager::getInstance().getServerPort();
+            isChanged = false;
+
+            std::cout << "Settings reset to default\n";
+            waitForEnter();
+
+            break;
+         }
+
+         case 0:
+         {
+            if(isChanged)
+            {
+               std::cout << "All unsaved settings will be reset. Are you sure you want to exit? [y/N]: ";
+               if(getYesOrNot() != 'y')
+                  break;
+            }
+            isRunningSettingsMenu = false;
+            break;
+         }
+         default:
+            break;
+         }
+      }
+      
+   } 
 } // namespace MenuManager
 
 
