@@ -85,6 +85,8 @@ namespace MenuManager
    
    void waitForEnter()
    {
+      std::cout << "\nPress Enter to continue...";
+      std::cin.get();
    }
 } // namespace MenuManager
 
