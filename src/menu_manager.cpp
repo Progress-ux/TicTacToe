@@ -11,9 +11,28 @@ void MenuManager::showMainMenu()
    std::cout << "0. Exit\n";
 }
 
-void MenuManager::showSettingsMenu()
+void MenuManager::showSettingsMenu(const std::string& serverIp, unsigned short serverPort)
 {
+   std::cout << "=== Settings ===\n\n";
+
+   std::cout << "Address(IP): " << serverIp << "\n";
+   std::cout << "Port: " << serverPort << "\n";
+
+   std::cout << "Name user profile: " << "-- under development --\n";
+   std::cout << "Language: " << "-- under development --\n\n";
+
+   std::cout << "1. Change address\n";
+   std::cout << "2. Change port\n\n";
+
+   std::cout << "3. Change Username\n";
+   std::cout << "4. Change language\n\n";
+
+   std::cout << "5. Save settings\n";
+   std::cout << "6. Reset changes\n";
+   std::cout << "7. Reset settings to default\n\n";
+   std::cout << "0. Back\n";
 }
+
 
 void MenuManager::runSettingsMenu()
 {

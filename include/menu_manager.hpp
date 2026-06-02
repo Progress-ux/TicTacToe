@@ -3,7 +3,7 @@
 namespace MenuManager
 {
    void showMainMenu();
-   void showSettingsMenu();  
+   void showSettingsMenu(const std::string& serverIp, unsigned short serverPort);  
 
    void runSettingsMenu();
 
