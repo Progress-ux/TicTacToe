@@ -5,7 +5,26 @@
 
 namespace 
 {
+   char getYesOrNot()
+   {
+      char result;
+      
+      std::cin.get(result);
 
+      if (result == '\n') {
+         return 'n'; 
+      }
+
+      if (result != '\n') {
+         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      }
+
+      if (result == 'y' || result == 'Y') {
+         return 'y';
+      }
+      
+      return 'n';
+   }
 }
 
 namespace MenuManager
