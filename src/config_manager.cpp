@@ -20,7 +20,19 @@ void ConfigManager::load()
       save();
       return;
    }
-   json data = json::parse(file);
+
+   json data;
+   try 
+   {
+      data = json::parse(file);
+   }
+   catch (json::parse_error& e)
+   {
+      file.close();
+      resetToDefault();
+      save();
+      return;
+   }
 
    if(!data.contains("network") || !data["network"].is_object())
    {
