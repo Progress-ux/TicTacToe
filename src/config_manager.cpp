@@ -27,9 +27,11 @@ void ConfigManager::load()
       return;
    }
 
-   serverIp = data.value("serverIp", "127.0.0.1");
-   serverPort = data.value("serverPort", 53000);
-   timeout = data.value("timeout", 15.0);
+   const auto& network = data["network"];
+
+   serverIp = network.value("serverIp", "127.0.0.1");
+   serverPort = network.value("serverPort", 53000);
+   timeout = network.value("timeout", 15.0);
 }
 
 void ConfigManager::save()
