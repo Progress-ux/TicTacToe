@@ -17,6 +17,7 @@ void ConfigManager::load()
    if (!file.is_open())
    {
       resetToDefault();
+      save();
       return;
    }
    json data = json::parse(file);
