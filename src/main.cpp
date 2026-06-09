@@ -44,6 +44,7 @@ int main(int argc, const char** argv)
          }
       case 0: // Exit
          {
+            InputManager::clearScreen();
             isRunningGame = false;
             break;
          }
