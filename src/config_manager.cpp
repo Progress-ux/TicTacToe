@@ -23,7 +23,7 @@ void ConfigManager::load()
 
    serverIp = data.value("serverIp", "127.0.0.1");
    serverPort = data.value("serverPort", 53000);
-   timeout = data.value("timeout", 15);
+   timeout = data.value("timeout", 15.0);
 }
 
 void ConfigManager::save()
@@ -46,5 +46,5 @@ void ConfigManager::resetToDefault()
 {
    serverIp = "127.0.0.1";
    serverPort = 53000;
-   timeout = 15;
+   timeout = 15.0;
 }
