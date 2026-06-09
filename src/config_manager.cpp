@@ -21,6 +21,12 @@ void ConfigManager::load()
    }
    json data = json::parse(file);
 
+   if(!data.contains("network") || !data["network"].is_object())
+   {
+      resetToDefault();
+      return;
+   }
+
    serverIp = data.value("serverIp", "127.0.0.1");
    serverPort = data.value("serverPort", 53000);
    timeout = data.value("timeout", 15.0);
