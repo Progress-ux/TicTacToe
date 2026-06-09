@@ -43,9 +43,9 @@ void ConfigManager::save()
    }
 
    json data;
-   data["serverIp"] = serverIp;
-   data["serverPort"] = serverPort;
-   data["timeout"] = timeout;
+   data["network"]["serverIp"] = serverIp;
+   data["network"]["serverPort"] = serverPort;
+   data["network"]["timeout"] = timeout;
 
    file << data.dump(4) << std::endl;
 }
