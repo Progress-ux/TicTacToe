@@ -28,7 +28,7 @@ int main(int argc, const char** argv)
       {
       case 1: // Single game
          {
-            // TODO: Create a single-player game with two difficulty levels to choose from
+            
             break;
          }
       case 2: // Multiplayer game

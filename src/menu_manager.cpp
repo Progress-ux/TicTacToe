@@ -62,6 +62,17 @@ namespace MenuManager
       std::cout << "0. Back\n";
    }
    
+   void showSinglePlayMenu()
+   {
+      std::cout << "=== Single Player ===\n\n";
+
+      std::cout << "Select bot difficulty:\n";
+      std::cout << "1. Easy bot\n";
+      std::cout << "2. Hard bot\n";
+      
+      std::cout << "\n0. Back\n";
+}
+
    int getNumber()
    {
       int number;
