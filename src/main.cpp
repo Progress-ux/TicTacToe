@@ -28,7 +28,7 @@ int main(int argc, const char** argv)
       {
       case 1: // Single game
          {
-            
+            MenuManager::runSinglePlayMenu();
             break;
          }
       case 2: // Multiplayer game

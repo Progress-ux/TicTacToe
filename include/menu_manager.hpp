@@ -6,6 +6,7 @@ namespace MenuManager
    void showSettingsMenu(const std::string& serverIp, unsigned short serverPort);  
 
    void showSinglePlayMenu();
+   void runSinglePlayMenu();
 
    void runSettingsMenu();
 

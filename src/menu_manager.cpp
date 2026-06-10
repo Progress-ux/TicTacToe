@@ -61,7 +61,7 @@ namespace MenuManager
       std::cout << "7. Reset settings to default\n\n";
       std::cout << "0. Back\n";
    }
-   
+
    void showSinglePlayMenu()
    {
       std::cout << "=== Single Player ===\n\n";
@@ -72,6 +72,38 @@ namespace MenuManager
       
       std::cout << "\n0. Back\n";
 }
+
+   void runSinglePlayMenu()
+   {
+      bool isRunningSinglePlayMenu = true;
+
+      while (isRunningSinglePlayMenu)
+      {
+         InputManager::clearScreen();
+
+         showSinglePlayMenu();
+         int number = getNumber();
+
+         switch (number)
+         {
+         case 1:
+            
+            break;
+         
+         case 2:
+
+            break;
+
+         case 0: 
+            isRunningSinglePlayMenu = false;
+            break;
+         
+         default:
+            break;
+         }   
+      }
+      
+   }
 
    int getNumber()
    {
