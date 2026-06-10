@@ -34,7 +34,7 @@ namespace MenuManager
    void showMainMenu()
    {
       std::cout << "=== Tic Tac Toe ===\n";
-      std::cout << "1. Play Single Player (under development)\n";
+      std::cout << "1. Play Single Player\n";
       std::cout << "2. Play Multi Player\n";
       std::cout << "3. Settings\n";
       std::cout << "0. Exit\n";
@@ -67,8 +67,8 @@ namespace MenuManager
       std::cout << "=== Single Player ===\n\n";
 
       std::cout << "Select bot difficulty:\n";
-      std::cout << "1. Easy bot\n";
-      std::cout << "2. Hard bot\n";
+      std::cout << "1. Easy bot " << "-- under development --\n";
+      std::cout << "2. Hard bot " << "-- under development --\n";
       
       std::cout << "\n0. Back\n";
 }
