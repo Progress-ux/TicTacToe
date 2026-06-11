@@ -45,6 +45,11 @@ void GameMode::runMultiplayerGame()
          break;
       }
       
+      if (!game.canMove(move))
+      {
+         std::cerr << "Cheat detected! Invalid move." << std::endl;
+         break;
+      }
       game.move(move);
 
       if (game.checkWin()) 
