@@ -24,6 +24,12 @@ char InputManager::getMode()
    }
 }
 
+void InputManager::waitForEnter()
+{
+   std::cout << "\nPress Enter to continue...";
+   std::cin.get();
+}
+
 int InputManager::getNextMove(TicTacToe &game)
 {
    int number_cell;

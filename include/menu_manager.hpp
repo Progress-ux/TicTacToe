@@ -11,5 +11,4 @@ namespace MenuManager
    void runSettingsMenu();
 
    int getNumber();
-   void waitForEnter();
 } // namespace MenuManager

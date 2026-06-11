@@ -124,12 +124,6 @@ namespace MenuManager
       return number;
    }
    
-   void waitForEnter()
-   {
-      std::cout << "\nPress Enter to continue...";
-      std::cin.get();
-   }
-
    void runSettingsMenu()
    {
       bool isRunningSettingsMenu = true;
@@ -202,7 +196,7 @@ namespace MenuManager
             if(getYesOrNot() != 'y')
             {
                std::cout << "Settings not saved!\n";
-               waitForEnter();
+               InputManager::waitForEnter();
                break;
             }
 
@@ -212,7 +206,7 @@ namespace MenuManager
 
             std::cout << "Settings saved successfully!\n";
             isChanged = false;
-            waitForEnter();
+            InputManager::waitForEnter();
 
             break;
          }
@@ -232,7 +226,7 @@ namespace MenuManager
             isChanged = false;
 
             std::cout << "Settings changes reset\n";
-            waitForEnter();
+            InputManager::waitForEnter();
 
             break;
          }
@@ -250,7 +244,7 @@ namespace MenuManager
             isChanged = false;
 
             std::cout << "Settings reset to default\n";
-            waitForEnter();
+            InputManager::waitForEnter();
 
             break;
          }

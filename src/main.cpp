@@ -20,7 +20,7 @@ int main(int argc, const char** argv)
       if (number > 3 || number < 0)
       {
          std::cout << "--- Invalid input! Please enter a number from the list\n";
-         MenuManager::waitForEnter();
+         InputManager::waitForEnter();
          continue;
       }
 
