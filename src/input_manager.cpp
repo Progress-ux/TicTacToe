@@ -54,7 +54,8 @@ int InputManager::getNextMove(TicTacToe &game)
          std::cout << "--- Cell " << number_cell << " is already taken!\n";
          continue;
       }
-      
+
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       break; 
    }
    
