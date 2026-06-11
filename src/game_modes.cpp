@@ -42,12 +42,14 @@ void GameMode::runMultiplayerGame()
       if (move < 0) 
       {
          std::cerr << "The connection was broken." << std::endl;
+         InputManager::waitForEnter();
          break;
       }
       
       if (!game.canMove(move))
       {
          std::cerr << "Cheat detected! Invalid move." << std::endl;
+         InputManager::waitForEnter();
          break;
       }
       game.move(move);
@@ -64,6 +66,7 @@ void GameMode::runMultiplayerGame()
          {
             std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
          }
+         InputManager::waitForEnter();
          break;
       }
 
@@ -72,6 +75,7 @@ void GameMode::runMultiplayerGame()
          InputManager::clearScreen();
          game.field_rendering();
          std::cout << "It's a draw! No more moves left.\n";
+         InputManager::waitForEnter();
          break;
       }
 
