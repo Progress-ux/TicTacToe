@@ -10,8 +10,7 @@ void GameMode::runMultiplayerGame()
 {
    TicTacToe game;
    int move;
-   int number_cell;
-   std::unique_ptr<NetworkManager> network = std::unique_ptr<NetworkManager>();
+   std::unique_ptr<NetworkManager> network;
 
    char mode = InputManager::getMode();
    try {
