@@ -150,8 +150,19 @@ namespace MenuManager
          {
          case 1:
          {
-            std::cout << "New address: ";
-            std::cin >> address;
+            std::string address;
+            while(true)
+            {
+               std::cout << "New address: ";
+               std::cin >> address;
+               if (!ConfigManager::validationServerIp(address))
+               {
+                  address = "";
+                  std::cout << "\n--- Invalid input! Please enter new IP\n\n";
+                  continue;
+               }
+               break;
+            }
             isChanged = true;
             break;
          }
