@@ -16,8 +16,8 @@ public:
 
    static ConfigManager& getInstance();
 
-   bool validationServerIp(const std::string& ip);
-   bool validationServerPort(int port);
+   static bool validationServerIp(const std::string& ip);
+   static bool validationServerPort(int port);
 
    std::string getServerIp() const { return serverIp; }
    void setServerIp(const std::string& ip) { serverIp = ip; }
