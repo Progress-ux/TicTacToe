@@ -7,9 +7,22 @@
 
 int main(int argc, const char** argv) 
 {
-   ConfigManager::getInstance().load();
+   try
+   {
+      ConfigManager::getInstance().load();
+   }
+   catch(const std::runtime_error& e)
+   {
+      std::cerr << e.what() << '\n';
+      InputManager::waitForEnter();
+   }
+   catch(const std::exception& e)
+   {
+      std::cerr << e.what() << '\n';
+      InputManager::waitForEnter();
+   }
+   
    bool isRunningGame = true;
-            
 
    while(isRunningGame)
    {
