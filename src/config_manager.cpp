@@ -26,7 +26,7 @@ bool ConfigManager::validationServerPort(unsigned short port)
 
 void ConfigManager::load()
 {
-   std::fstream file("config.json");
+   std::ifstream file("config.json");
    if (!file.is_open())
    {
       resetToDefault();
