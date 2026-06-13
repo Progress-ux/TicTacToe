@@ -18,9 +18,9 @@ bool ConfigManager::validationServerIp(const std::string& ip)
    return std::regex_match(ip, ip_regex);
 }
 
-bool ConfigManager::validationServerPort(unsigned short port)
+bool ConfigManager::validationServerPort(int port)
 {
-   return port > 0; 
+   return port > 0 && port <= 65535; 
 }
 
 
