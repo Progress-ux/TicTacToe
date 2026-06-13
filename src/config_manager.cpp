@@ -55,21 +55,27 @@ void ConfigManager::load()
 
    const auto& network = data["network"];
 
-   serverIp = network.value("serverIp", "127.0.0.1");
-   serverPort = network.value("serverPort", 53000);
-   timeout = network.value("timeout", 15.0);
+   std::string tempServerIp = network.value("serverIp", "127.0.0.1");
+   int tempServerPort = network.value("serverPort", 53000);
 
-   if (!validationServerIp(serverIp))
+   if (!validationServerIp(tempServerIp))
    {
       resetToDefault();
+      save();
       throw std::runtime_error("Incorrect server IP, please check config");
    }
 
-   if (!validationServerPort(serverPort))
+   if (!validationServerPort(tempServerPort))
    {
       resetToDefault();
+      save();
       throw std::runtime_error("Incorrect server Port, please check config");
    }
+
+   serverIp = tempServerIp;
+   serverPort = static_cast<unsigned short>(tempServerPort);
+   timeout = network.value("timeout", 15.0);
+
 }
 
 void ConfigManager::save()
