@@ -58,6 +58,18 @@ void ConfigManager::load()
    serverIp = network.value("serverIp", "127.0.0.1");
    serverPort = network.value("serverPort", 53000);
    timeout = network.value("timeout", 15.0);
+
+   if (!validationServerIp(serverIp))
+   {
+      resetToDefault();
+      throw std::runtime_error("Incorrect server IP, please check config");
+   }
+
+   if (!validationServerPort(serverPort))
+   {
+      resetToDefault();
+      throw std::runtime_error("Incorrect server Port, please check config");
+   }
 }
 
 void ConfigManager::save()
@@ -66,6 +78,16 @@ void ConfigManager::save()
    if (!file.is_open())
    {
       throw std::runtime_error("Error: Could not save config");
+   }
+
+   if (!validationServerIp(serverIp))
+   {
+      throw std::runtime_error("Incorrect server IP");
+   }
+
+   if (!validationServerPort(serverPort))
+   {
+      throw std::runtime_error("Incorrect server Port");
    }
 
    json data;
