@@ -2,6 +2,7 @@
 
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <regex>
 
 using json = nlohmann::json;
 
@@ -10,6 +11,18 @@ ConfigManager &ConfigManager::getInstance()
    static ConfigManager instance;
    return instance;
 }
+
+bool ConfigManager::validationServerIp(const std::string& ip)
+{
+   std::regex ip_regex(R"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})");
+   return std::regex_match(ip, ip_regex);
+}
+
+bool ConfigManager::validationServerPort(unsigned short port)
+{
+   return port > 0; 
+}
+
 
 void ConfigManager::load()
 {
