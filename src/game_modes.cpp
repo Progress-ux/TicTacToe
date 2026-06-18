@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+
 #include "game.hpp"
 #include "network.hpp"
 #include "input_manager.hpp"
@@ -81,4 +82,12 @@ void GameMode::runMultiplayerGame()
       game.switchPlayer();
       InputManager::clearScreen();
    }
+}
+
+void GameMode::runSingleEasyGame()
+{
+   TicTacToe game;
+   int move;
+
+   
 }

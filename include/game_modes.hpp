@@ -3,4 +3,6 @@
 namespace GameMode
 {
    void runMultiplayerGame();
+
+   void runSingleEasyGame();
 }
