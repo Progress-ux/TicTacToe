@@ -105,6 +105,14 @@ namespace MenuManager
       
    }
 
+   void showSetCurrentPlayerMenu()
+   {
+      std::cout << "=== Select a player ===\n\n";
+      std::cout << "1. Player - [x]\n";
+      std::cout << "2. Player - [o]\n";
+      std::cout << "0. Back\n\n";
+   }
+
    int getNumber()
    {
       int number;

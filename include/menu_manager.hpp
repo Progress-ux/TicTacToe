@@ -8,6 +8,8 @@ namespace MenuManager
    void showSinglePlayMenu();
    void runSinglePlayMenu();
 
+   void showSetCurrentPlayerMenu();
+
    void runSettingsMenu();
 
    int getNumber();
