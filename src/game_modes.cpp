@@ -7,6 +7,7 @@
 #include "network.hpp"
 #include "input_manager.hpp"
 #include "menu_manager.hpp"
+#include "bot.hpp"
 
 void GameMode::runMultiplayerGame()
 {
@@ -89,6 +90,7 @@ void GameMode::runSingleEasyGame()
 {
    TicTacToe game;
    int move;
+   EasyBot bot;
 
    char player = MenuManager::runSetCurrentPlayerMenu();  
    InputManager::clearScreen();
@@ -109,6 +111,11 @@ void GameMode::runSingleEasyGame()
       }
       else
       {
+         while(true)
+         {
+            move = bot.move();
+            if (game.canMove(move)) break;
+         }
       }
 
       if (!game.canMove(move))
