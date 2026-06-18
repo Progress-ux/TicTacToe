@@ -2,6 +2,7 @@
 
 #include "config_manager.hpp"
 #include "input_manager.hpp"
+#include "game_modes.hpp"
 #include <iostream>
 #include <limits>
 
@@ -87,7 +88,7 @@ namespace MenuManager
          switch (number)
          {
          case 1:
-            
+            GameMode::runSingleEasyGame();
             break;
          
          case 2:

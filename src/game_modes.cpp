@@ -6,6 +6,7 @@
 #include "game.hpp"
 #include "network.hpp"
 #include "input_manager.hpp"
+#include "menu_manager.hpp"
 
 void GameMode::runMultiplayerGame()
 {
@@ -89,5 +90,11 @@ void GameMode::runSingleEasyGame()
    TicTacToe game;
    int move;
 
-   
+   char current_player = MenuManager::runSetCurrentPlayerMenu();  
+   InputManager::clearScreen();
+   if (current_player == 'e') return;
+
+   game.setCurrentPlayer(current_player);
+   std::cout << "Current player: " << current_player << std::endl;
+   InputManager::waitForEnter();
 }
