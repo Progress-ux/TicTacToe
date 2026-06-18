@@ -16,6 +16,7 @@ add_executable(game
    src/game_modes.cpp
    src/config_manager.cpp
    src/menu_manager.cpp
+   src/bot.cpp
 )
 
 target_link_libraries(game 
