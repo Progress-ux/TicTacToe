@@ -101,7 +101,7 @@ void GameMode::runSingleEasyGame()
       game.field_rendering();
 
       bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
-                      (player == 'c' && game.getCurrentPlayer() == 'o');
+                      (player == 'o' && game.getCurrentPlayer() == 'o');
 
       if (isMyTurn) 
       {
