@@ -9,6 +9,7 @@ namespace MenuManager
    void runSinglePlayMenu();
 
    void showSetCurrentPlayerMenu();
+   char runSetCurrentPlayerMenu();
 
    void runSettingsMenu();
 

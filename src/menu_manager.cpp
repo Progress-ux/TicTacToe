@@ -113,6 +113,42 @@ namespace MenuManager
       std::cout << "0. Back\n\n";
    }
 
+   char runSetCurrentPlayerMenu()
+   {
+      bool isRunningSetCurrentPlayerMenu = true;
+
+      while (isRunningSetCurrentPlayerMenu)
+      {
+         InputManager::clearScreen();
+         
+         showSetCurrentPlayerMenu();
+         int number = getNumber();
+
+         switch (number)
+         {
+         case 1:
+         {
+            return 'x';
+         }
+         
+         case 2:
+         {
+            return 'o';
+         }
+
+         case 0:
+         {
+            return 'e';
+         }
+         default:
+            std::cout << "Choose one of the options!\n";
+            InputManager::waitForEnter();
+            continue;
+         }
+      }
+      
+   }
+
    int getNumber()
    {
       int number;
