@@ -58,6 +58,11 @@ char TicTacToe::getCurrentPlayer()
    return currentPlayer;
 }
 
+void TicTacToe::setCurrentPlayer(char currentPlayer)
+{
+   this->currentPlayer = currentPlayer;
+}
+
 void TicTacToe::switchPlayer()
 {
    currentPlayer = (currentPlayer == 'x') ? 'o' : 'x';

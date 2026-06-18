@@ -21,5 +21,7 @@ public:
    void move(int index);
 
    char getCurrentPlayer();
+   void setCurrentPlayer(char currentPlayer);
+
    void switchPlayer();
 };
