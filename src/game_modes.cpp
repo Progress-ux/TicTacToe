@@ -90,11 +90,61 @@ void GameMode::runSingleEasyGame()
    TicTacToe game;
    int move;
 
-   char current_player = MenuManager::runSetCurrentPlayerMenu();  
+   char player = MenuManager::runSetCurrentPlayerMenu();  
    InputManager::clearScreen();
-   if (current_player == 'e') return;
+   if (player == 'e') return;
 
-   game.setCurrentPlayer(current_player);
-   std::cout << "Current player: " << current_player << std::endl;
-   InputManager::waitForEnter();
+   game.setCurrentPlayer(player);
+
+   while (true)
+   {
+      game.field_rendering();
+
+      bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
+                      (player == 'c' && game.getCurrentPlayer() == 'o');
+
+      if (isMyTurn) 
+      {
+         move = InputManager::getNextMove(game);
+      }
+      else
+      {
+      }
+
+      if (!game.canMove(move))
+      {
+         std::cerr << "Cheat detected! Invalid move." << std::endl;
+         InputManager::waitForEnter();
+         break;
+      }
+      game.move(move);
+
+      if (game.checkWin()) 
+      {
+         InputManager::clearScreen();
+         game.field_rendering();
+         if (isMyTurn) 
+         {
+            std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
+         } 
+         else 
+         {
+            std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
+         }
+         InputManager::waitForEnter();
+         break;
+      }
+
+      if (game.checkDraw()) 
+      {
+         InputManager::clearScreen();
+         game.field_rendering();
+         std::cout << "It's a draw! No more moves left.\n";
+         InputManager::waitForEnter();
+         break;
+      }
+
+      game.switchPlayer();
+      InputManager::clearScreen();
+   }
 }
