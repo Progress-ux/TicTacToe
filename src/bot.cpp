@@ -1,10 +1,10 @@
 #include "bot.hpp"
 
-int EasyBot::move()
+int EasyBot::move(TicTacToe game)
 {
    return distrib(gen);
 }
 
-int HardBot::move()
+int HardBot::move(TicTacToe game)
 {
 }
