@@ -23,6 +23,8 @@ public:
 };
 
 class HardBot : public Bot {
+private:
+   int minimax(TicTacToe& game, bool isMax);
 public:
    int move(TicTacToe game) override;
 
