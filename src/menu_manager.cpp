@@ -92,7 +92,7 @@ namespace MenuManager
             break;
          
          case 2:
-
+            GameMode::runSingleHardGame();
             break;
 
          case 0: 
