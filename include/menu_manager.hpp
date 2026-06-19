@@ -15,6 +15,8 @@ namespace MenuManager
    void runSettingsMenu();
 
    void fieldRendering(std::vector<char>& cells);
+   void showGetModeMenu();
+   char runGetModeMenu();
 
    int getNumber();
 } // namespace MenuManager

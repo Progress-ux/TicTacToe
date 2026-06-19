@@ -15,7 +15,10 @@ void GameMode::runMultiplayerGame()
    int move;
    std::unique_ptr<NetworkManager> network;
 
-   char mode = InputManager::getMode();
+   char mode = MenuManager::runGetModeMenu();
+
+   if (mode == 'e') return;
+
    try {
       network = NetworkManager::createNetworkManager(mode);
    } catch (const std::exception& e) {

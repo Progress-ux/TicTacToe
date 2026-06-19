@@ -12,18 +12,6 @@ void InputManager::clearScreen()
 #endif
 }
    
-char InputManager::getMode()
-{
-   char mode;
-   while (true) 
-   {
-      std::cout << "Select mode: (s)erver or (c)lient: ";
-      std::cin >> mode;
-      if (mode == 's' || mode == 'c') return mode;
-      std::cout << "--- Invalid input! Please enter 's' for server or 'c' for client.\n";
-   }
-}
-
 void InputManager::waitForEnter()
 {
    std::cout << "\nPress Enter to continue...";

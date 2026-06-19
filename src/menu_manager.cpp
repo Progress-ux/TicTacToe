@@ -162,7 +162,46 @@ namespace MenuManager
       
       return number;
    }
-   
+
+   void showGetModeMenu()
+   {
+      std::cout << "=== Server or Client mode ===\n\n";
+
+      std::cout << "Select mode:\n";
+      std::cout << "1. Server\n";
+      std::cout << "2. Client\n";
+      
+      std::cout << "\n0. Back\n";
+   }
+
+   char runGetModeMenu()
+   {
+      bool isRunningGetModeMenu = true;
+
+      while (isRunningGetModeMenu)
+      {
+         InputManager::clearScreen();
+         
+         showGetModeMenu();
+         int number = getNumber();
+
+         switch (number)
+         {
+         case 1: return 's';
+         
+         case 2: return 'c';
+
+         case 0: return 'e';
+
+         default: 
+            std::cout << "Choose one of the options!\n";
+            InputManager::waitForEnter();
+            continue;
+         }
+      }
+      return 'e';
+   }
+
    void runSettingsMenu()
    {
       bool isRunningSettingsMenu = true;
