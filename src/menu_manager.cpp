@@ -147,6 +147,7 @@ namespace MenuManager
       int number;
       while (true) 
       {
+         std::cout << "Enter choice: ";
          if (std::cin >> number) 
          {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
