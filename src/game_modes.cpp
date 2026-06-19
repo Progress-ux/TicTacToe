@@ -113,7 +113,77 @@ void GameMode::runSingleEasyGame()
       {
          while(true)
          {
-            move = bot.move();
+            move = bot.move(game);
+            if (game.canMove(move)) break;
+         }
+      }
+
+      if (!game.canMove(move))
+      {
+         std::cerr << "Cheat detected! Invalid move." << std::endl;
+         InputManager::waitForEnter();
+         break;
+      }
+      game.move(move);
+
+      if (game.checkWin()) 
+      {
+         InputManager::clearScreen();
+         game.field_rendering();
+         if (isMyTurn) 
+         {
+            std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
+         } 
+         else 
+         {
+            std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
+         }
+         InputManager::waitForEnter();
+         break;
+      }
+
+      if (game.checkDraw()) 
+      {
+         InputManager::clearScreen();
+         game.field_rendering();
+         std::cout << "It's a draw! No more moves left.\n";
+         InputManager::waitForEnter();
+         break;
+      }
+
+      game.switchPlayer();
+      InputManager::clearScreen();
+   }
+}
+
+void GameMode::runSingleHardGame()
+{
+   TicTacToe game;
+   int move;
+   HardBot bot;
+
+   char player = MenuManager::runSetCurrentPlayerMenu();  
+   InputManager::clearScreen();
+   if (player == 'e') return;
+
+   game.setCurrentPlayer(player);
+
+   while (true)
+   {
+      game.field_rendering();
+
+      bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
+                      (player == 'o' && game.getCurrentPlayer() == 'o');
+
+      if (isMyTurn) 
+      {
+         move = InputManager::getNextMove(game);
+      }
+      else
+      {
+         while(true)
+         {
+            move = bot.move(game);
             if (game.canMove(move)) break;
          }
       }
