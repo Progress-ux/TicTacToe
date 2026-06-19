@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 namespace MenuManager
 {
@@ -12,6 +13,8 @@ namespace MenuManager
    char runSetCurrentPlayerMenu();
 
    void runSettingsMenu();
+
+   void fieldRendering(std::vector<char>& cells);
 
    int getNumber();
 } // namespace MenuManager

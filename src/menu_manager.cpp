@@ -3,6 +3,7 @@
 #include "config_manager.hpp"
 #include "input_manager.hpp"
 #include "game_modes.hpp"
+
 #include <iostream>
 #include <limits>
 
@@ -156,7 +157,7 @@ namespace MenuManager
    
          std::cin.clear();
          std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-         std::cout << "--- Invalid input! Please enter a valid number: ";
+         std::cout << "--- Invalid input! Please enter a valid number!\n";
       }
       
       return number;
@@ -314,7 +315,17 @@ namespace MenuManager
          }
       }
       
-   } 
+   }
+   
+   void fieldRendering(std::vector<char>& cells)
+   {
+      std::cout << " " << cells[0] << " | " << cells[1] << " | " << cells[2] << "\n";   
+      std::cout << "---+---+---\n";
+      std::cout << " "  << cells[3] << " | " << cells[4] << " | " << cells[5] << "\n";   
+      std::cout << "---+---+---\n";
+      std::cout << " "  << cells[6] << " | " << cells[7] << " | " << cells[8] << "\n"; 
+   }
+
 } // namespace MenuManager
 
 

@@ -12,8 +12,6 @@ private:
 public:
    TicTacToe();
 
-   void field_rendering();
-
    bool checkWin();
    bool checkDraw();
 
@@ -24,4 +22,6 @@ public:
    void setCurrentPlayer(char currentPlayer);
 
    void switchPlayer();
+
+   std::vector<char>& getCells();
 };

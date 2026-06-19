@@ -25,7 +25,7 @@ void GameMode::runMultiplayerGame()
 
    while (true)
    {
-      game.field_rendering();
+      MenuManager::fieldRendering(game.getCells()); 
 
       bool isMyTurn = (mode == 's' && game.getCurrentPlayer() == 'x') || 
                       (mode == 'c' && game.getCurrentPlayer() == 'o');
@@ -59,7 +59,7 @@ void GameMode::runMultiplayerGame()
       if (game.checkWin()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          if (isMyTurn) 
          {
             std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
@@ -75,7 +75,7 @@ void GameMode::runMultiplayerGame()
       if (game.checkDraw()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          std::cout << "It's a draw! No more moves left.\n";
          InputManager::waitForEnter();
          break;
@@ -98,7 +98,7 @@ void GameMode::runSingleEasyGame()
 
    while (true)
    {
-      game.field_rendering();
+      MenuManager::fieldRendering(game.getCells());
 
       bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
                       (player == 'o' && game.getCurrentPlayer() == 'o');
@@ -127,7 +127,7 @@ void GameMode::runSingleEasyGame()
       if (game.checkWin()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          if (isMyTurn) 
          {
             std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
@@ -143,7 +143,7 @@ void GameMode::runSingleEasyGame()
       if (game.checkDraw()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          std::cout << "It's a draw! No more moves left.\n";
          InputManager::waitForEnter();
          break;
@@ -166,7 +166,7 @@ void GameMode::runSingleHardGame()
 
    while (true)
    {
-      game.field_rendering();
+      MenuManager::fieldRendering(game.getCells());
 
       bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
                       (player == 'o' && game.getCurrentPlayer() == 'o');
@@ -195,7 +195,7 @@ void GameMode::runSingleHardGame()
       if (game.checkWin()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          if (isMyTurn) 
          {
             std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
@@ -211,7 +211,7 @@ void GameMode::runSingleHardGame()
       if (game.checkDraw()) 
       {
          InputManager::clearScreen();
-         game.field_rendering();
+         MenuManager::fieldRendering(game.getCells());
          std::cout << "It's a draw! No more moves left.\n";
          InputManager::waitForEnter();
          break;

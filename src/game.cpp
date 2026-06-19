@@ -5,17 +5,7 @@ TicTacToe::TicTacToe()
    : cells{ '0', '1', '2', '3', '4', '5', '6', '7', '8' },
      currentPlayer('x'),
      moveCount(0)
-{
-}
-
-void TicTacToe::field_rendering()
-{
-   std::cout << " " << cells[0] << " | " << cells[1] << " | " << cells[2] << "\n";   
-   std::cout << "---+---+---\n";
-   std::cout << " "  << cells[3] << " | " << cells[4] << " | " << cells[5] << "\n";   
-   std::cout << "---+---+---\n";
-   std::cout << " "  << cells[6] << " | " << cells[7] << " | " << cells[8] << "\n"; 
-}
+{}
 
 bool TicTacToe::checkWin()
 {
@@ -66,4 +56,9 @@ void TicTacToe::setCurrentPlayer(char currentPlayer)
 void TicTacToe::switchPlayer()
 {
    currentPlayer = (currentPlayer == 'x') ? 'o' : 'x';
+}
+
+std::vector<char> &TicTacToe::getCells()
+{
+   return cells;
 }
