@@ -96,8 +96,6 @@ void GameMode::runSingleEasyGame()
    InputManager::clearScreen();
    if (player == 'e') return;
 
-   game.setCurrentPlayer(player);
-
    while (true)
    {
       game.field_rendering();
@@ -165,8 +163,6 @@ void GameMode::runSingleHardGame()
    char player = MenuManager::runSetCurrentPlayerMenu();  
    InputManager::clearScreen();
    if (player == 'e') return;
-
-   game.setCurrentPlayer(player);
 
    while (true)
    {
