@@ -72,7 +72,7 @@ namespace MenuManager
       std::cout << "2. Hard bot\n";
       
       std::cout << "\n0. Back\n";
-}
+   }
 
    void runSinglePlayMenu()
    {
@@ -127,27 +127,19 @@ namespace MenuManager
 
          switch (number)
          {
-         case 1:
-         {
-            return 'x';
-         }
+         case 1: return 'x';
          
-         case 2:
-         {
-            return 'o';
-         }
+         case 2: return 'o';
 
-         case 0:
-         {
-            return 'e';
-         }
-         default:
+         case 0: return 'e';
+
+         default: 
             std::cout << "Choose one of the options!\n";
             InputManager::waitForEnter();
             continue;
          }
       }
-      
+      return 'e';
    }
 
    int getNumber()
