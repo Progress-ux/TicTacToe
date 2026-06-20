@@ -249,19 +249,35 @@ namespace MenuManager
          {
          case 1:
          {
-            std::string address;
+            std::string new_address;
             while(true)
             {
                std::cout << "New address: ";
-               std::cin >> address;
-               if (!ConfigManager::validationServerIp(address))
+
+               if (!std::getline(std::cin, new_address))
                {
-                  address = "";
+                  std::cout << "--- Invalid input! Please enter new IP\n";
+                  continue;
+               }
+
+               new_address.erase(0, new_address.find_first_not_of(" \t\n\r"));
+               new_address.erase(new_address.find_last_not_of(" \t\n\r") + 1);
+               
+               if(new_address.empty())
+               {
+                  std::cout << "--- Input cannot be empty!\n";
+                  continue;
+               }
+
+               if (!ConfigManager::validationServerIp(new_address))
+               {
                   std::cout << "\n--- Invalid input! Please enter new IP\n\n";
                   continue;
                }
                break;
             }
+
+            address = new_address;
             isChanged = true;
             break;
          }
