@@ -284,18 +284,58 @@ namespace MenuManager
             
          case 2:
          {
+            std::string line;
+            unsigned short new_port;
             while (true)
             {
                std::cout << "New port: ";
-               if (!(std::cin >> port))
+               if(!std::getline(std::cin, line))
                {
-                  std::cin.clear();
-                  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                  std::cout << "\n--- Invalid input! Please enter new port\n\n";
+                  std::cout << "--- Invalid input! Please enter new port\n";
+                  continue;
+               }
+               
+               line.erase(0, line.find_first_not_of(" \t\n\r"));
+               line.erase(line.find_last_not_of(" \t\n\r") + 1);
+
+               if (line.empty())
+               {
+                  std::cout << "--- Input cannot be empty!\n";
+                  continue;
+               }
+
+               try
+               {
+                  size_t pos;
+                  int value = std::stoi(line, &pos);
+                  
+                  if (!(pos == line.length()))
+                  {
+                     std::cout << "--- Invalid characters after number: '" << line.substr(pos) << "'\n";
+                     continue;
+                  }
+
+                  if (value < 0 || value > 65535)
+                  {
+                     std::cout << "--- Port must be between 0 and 65535!\n";
+                     continue;
+                  }
+
+                  new_port = static_cast<unsigned short>(value);
+
+               } catch(const std::invalid_argument& e) {
+                  std::cout << "--- Not a number! Please enter a number from the menu list.\n";
+                  continue;
+               } catch(const std::out_of_range& e) {
+                  std::cout << "--- Number is too large!\n";
+                  continue;
+               } catch(const std::exception& e) {
+                  std::cout << "--- Unexpected error: " << e.what() << "\n";
                   continue;
                }
                break;
             }
+            port = new_port;
             isChanged = true;
             break;
          }
