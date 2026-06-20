@@ -20,28 +20,54 @@ void InputManager::waitForEnter()
 
 int InputManager::getNextMove(TicTacToe &game)
 {
-   int number_cell;
-   while (true) 
+   std::string line;
+   while (true)
    {
       std::cout << "Your turn [" << game.getCurrentPlayer() << "].\nEnter cell (0-8): ";
-      
-      if (!(std::cin >> number_cell) || number_cell < 0 || number_cell > 8) 
+      if (!std::getline(std::cin, line))
       {
-         std::cout << "--- Invalid input! Please enter a number between 0 and 8.\n";
-         std::cin.clear();
-         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-         continue;
+         return -1;
       }
+
+      line.erase(0, line.find_first_not_of(" \t\n\r"));
+      line.erase(line.find_last_not_of(" \t\n\r") + 1);
       
-      if (!game.canMove(number_cell)) 
+      if(line.empty())
       {
-         std::cout << "--- Cell " << number_cell << " is already taken!\n";
+         std::cout << "--- Input cannot be empty!\n";
          continue;
       }
 
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      break; 
+      try
+      {
+         size_t pos;
+         int number = std::stoi(line, &pos);
+
+         if (!(pos == line.length())) 
+         {
+            std::cout << "--- Invalid characters after number: '" << line.substr(pos) << "'\tPlease enter only a number between 0 and 8.\n";
+            continue;
+         }
+
+         if (number < 0 || number > 8) 
+         {
+            std::cout << "--- Number must be between 0 and 8!\n";
+            continue;
+         }
+
+         if (!game.canMove(number))
+         {
+            std::cout << "--- Cell " << number << " is already taken!\n";
+            continue;
+         }
+
+         return number;
+      } catch(const std::invalid_argument& e) {
+         std::cout << "--- Not a number! Please enter a number between 0 and 8.\n";
+      } catch(const std::out_of_range& e) {
+         std::cout << "--- Number is too large!\n";
+      } catch(const std::exception& e) {
+         std::cout << "--- Unexpected error: " << e.what() << "\n";
+      }
    }
-   
-   return number_cell;
 }
