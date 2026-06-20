@@ -85,11 +85,11 @@ namespace MenuManager
          switch (number)
          {
          case 1:
-            GameMode::runSingleEasyGame();
+            GameMode::runSingleGame(BotDifficulty::Easy);
             break;
          
          case 2:
-            GameMode::runSingleHardGame();
+            GameMode::runSingleGame(BotDifficulty::Hard);
             break;
 
          case 0: 
