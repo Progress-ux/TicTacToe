@@ -2,9 +2,9 @@
 
 #include "config_manager.hpp"
 
-std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(char mode)
+std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(NetworkMode mode)
 {
-   if (mode == 's') 
+   if (mode == NetworkMode::Server) 
    {
       std::unique_ptr<Server> s = std::make_unique<Server>();
       s->start(ConfigManager::getInstance().getServerPort());

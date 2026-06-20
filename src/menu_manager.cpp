@@ -195,7 +195,7 @@ namespace MenuManager
       std::cout << "\n0. Back\n";
    }
 
-   char runGetModeMenu()
+   NetworkMode runGetModeMenu()
    {
       bool isRunningGetModeMenu = true;
 
@@ -208,11 +208,11 @@ namespace MenuManager
 
          switch (number)
          {
-         case 1: return 's';
+         case 1: return NetworkMode::Server;
          
-         case 2: return 'c';
+         case 2: return NetworkMode::Client;
 
-         case 0: return 'e';
+         case 0: return NetworkMode::None;
 
          default: 
             std::cout << "Choose one of the options!\n";
@@ -220,7 +220,7 @@ namespace MenuManager
             continue;
          }
       }
-      return 'e';
+      return NetworkMode::None;
    }
 
    void runSettingsMenu()

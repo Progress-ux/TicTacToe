@@ -14,9 +14,9 @@ void GameMode::runMultiplayerGame()
    int move;
    std::unique_ptr<NetworkManager> network;
 
-   char mode = MenuManager::runGetModeMenu();
+   NetworkMode mode = MenuManager::runGetModeMenu();
 
-   if (mode == 'e') return;
+   if (mode == NetworkMode::None) return;
 
    try {
       network = NetworkManager::createNetworkManager(mode);
@@ -29,8 +29,8 @@ void GameMode::runMultiplayerGame()
    {
       MenuManager::fieldRendering(game.getCells()); 
 
-      bool isMyTurn = (mode == 's' && game.getCurrentPlayer() == 'x') || 
-                      (mode == 'c' && game.getCurrentPlayer() == 'o');
+      bool isMyTurn = (mode == NetworkMode::Server && game.getCurrentPlayer() == 'x') || 
+                      (mode == NetworkMode::Client && game.getCurrentPlayer() == 'o');
 
       if (isMyTurn) 
       {

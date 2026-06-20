@@ -5,6 +5,13 @@
 class Server;
 class Client;
 
+enum class NetworkMode 
+{
+   Server,
+   Client,
+   None
+};
+
 class NetworkManager 
 {
 protected: 
@@ -12,7 +19,7 @@ protected:
 public:
    virtual ~NetworkManager() = default;
 
-   static std::unique_ptr<NetworkManager> createNetworkManager(char mode);
+   static std::unique_ptr<NetworkManager> createNetworkManager(NetworkMode mode);
 
    void sendMove(int index) 
    {

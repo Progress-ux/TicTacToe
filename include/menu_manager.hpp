@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 
+#include "network.hpp"
+
 namespace MenuManager
 {
    void showMainMenu();
@@ -16,7 +18,7 @@ namespace MenuManager
 
    void fieldRendering(std::vector<char>& cells);
    void showGetModeMenu();
-   char runGetModeMenu();
+   NetworkMode runGetModeMenu();
 
    int getNumber();
 } // namespace MenuManager
