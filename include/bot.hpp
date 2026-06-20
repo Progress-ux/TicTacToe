@@ -29,3 +29,9 @@ public:
    int move(TicTacToe game) override;
 
 };
+
+enum class BotDifficulty 
+{ 
+   Easy,
+   Hard
+};
