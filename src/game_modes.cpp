@@ -7,7 +7,6 @@
 #include "network.hpp"
 #include "input_manager.hpp"
 #include "menu_manager.hpp"
-#include "bot.hpp"
 
 void GameMode::runMultiplayerGame()
 {
@@ -89,11 +88,18 @@ void GameMode::runMultiplayerGame()
    }
 }
 
-void GameMode::runSingleEasyGame()
+void GameMode::runSingleGame(BotDifficulty difficulty)
 {
    TicTacToe game;
    int move;
-   EasyBot bot;
+
+   std::unique_ptr<Bot> bot;
+
+   if (difficulty == BotDifficulty::Easy) 
+      bot = std::make_unique<EasyBot>();
+   else if (difficulty == BotDifficulty::Hard) 
+      bot = std::make_unique<HardBot>();
+   else return;
 
    char player = MenuManager::runSetCurrentPlayerMenu();  
    InputManager::clearScreen();
@@ -114,75 +120,7 @@ void GameMode::runSingleEasyGame()
       {
          while(true)
          {
-            move = bot.move(game);
-            if (game.canMove(move)) break;
-         }
-      }
-
-      if (!game.canMove(move))
-      {
-         std::cerr << "Cheat detected! Invalid move." << std::endl;
-         InputManager::waitForEnter();
-         break;
-      }
-      game.move(move);
-
-      if (game.checkWin()) 
-      {
-         InputManager::clearScreen();
-         MenuManager::fieldRendering(game.getCells());
-         if (isMyTurn) 
-         {
-            std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
-         } 
-         else 
-         {
-            std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
-         }
-         InputManager::waitForEnter();
-         break;
-      }
-
-      if (game.checkDraw()) 
-      {
-         InputManager::clearScreen();
-         MenuManager::fieldRendering(game.getCells());
-         std::cout << "It's a draw! No more moves left.\n";
-         InputManager::waitForEnter();
-         break;
-      }
-
-      game.switchPlayer();
-      InputManager::clearScreen();
-   }
-}
-
-void GameMode::runSingleHardGame()
-{
-   TicTacToe game;
-   int move;
-   HardBot bot;
-
-   char player = MenuManager::runSetCurrentPlayerMenu();  
-   InputManager::clearScreen();
-   if (player == 'e') return;
-
-   while (true)
-   {
-      MenuManager::fieldRendering(game.getCells());
-
-      bool isMyTurn = (player == 'x' && game.getCurrentPlayer() == 'x') || 
-                      (player == 'o' && game.getCurrentPlayer() == 'o');
-
-      if (isMyTurn) 
-      {
-         move = InputManager::getNextMove(game);
-      }
-      else
-      {
-         while(true)
-         {
-            move = bot.move(game);
+            move = bot->move(game);
             if (game.canMove(move)) break;
          }
       }

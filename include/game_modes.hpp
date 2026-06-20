@@ -1,9 +1,10 @@
 #pragma once
 
+#include "bot.hpp"
+
 namespace GameMode
 {
    void runMultiplayerGame();
 
-   void runSingleEasyGame();
-   void runSingleHardGame();
+   void runSingleGame(BotDifficulty difficulty);
 }
