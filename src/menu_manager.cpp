@@ -141,22 +141,47 @@ namespace MenuManager
 
    int getNumber()
    {
-      int number;
+
+      std::string line;
       while (true) 
       {
          std::cout << "Enter choice: ";
-         if (std::cin >> number) 
+         if (!std::getline(std::cin, line))
          {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return number;
+            std::cout << "--- Invalid input! Please enter a valid number!\n";
+            continue;
          }
-   
-         std::cin.clear();
-         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-         std::cout << "--- Invalid input! Please enter a valid number!\n";
+
+         line.erase(0, line.find_first_not_of(" \t\n\r"));
+         line.erase(line.find_last_not_of(" \t\n\r") + 1);
+
+         if (line.empty())
+         {
+            std::cout << "--- Input cannot be empty!\n";
+            continue;
+         }
+
+         try
+         {
+            size_t pos;
+            int number = std::stoi(line, &pos);
+            
+            if (!(pos == line.length()))
+            {
+               std::cout << "--- Invalid characters after number: '" << line.substr(pos) << "'\n";
+               continue;
+            }
+
+            return number;
+
+         } catch(const std::invalid_argument& e) {
+            std::cout << "--- Not a number! Please enter a number from the menu list.\n";
+         } catch(const std::out_of_range& e) {
+            std::cout << "--- Number is too large!\n";
+         } catch(const std::exception& e) {
+            std::cout << "--- Unexpected error: " << e.what() << "\n";
+         }
       }
-      
-      return number;
    }
 
    void showGetModeMenu()
