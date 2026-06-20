@@ -11,23 +11,19 @@ namespace
 {
    char getYesOrNot()
    {
-      char result;
-      
-      std::cin.get(result);
-
-      if (result == '\n') {
-         return 'n'; 
+      std::string line;
+      if(!std::getline(std::cin, line))
+      {
+         return 'n';
       }
 
-      if (result != '\n') {
-         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      }
+      line.erase(0, line.find_first_not_of(" \t\n\r"));
+      line.erase(line.find_last_not_of(" \t\n\r") + 1);
 
-      if (result == 'y' || result == 'Y') {
-         return 'y';
-      }
-      
-      return 'n';
+      if (line.empty()) return 'n';
+
+      char first = std::tolower(line[0]);
+      return (first == 'y') ? 'y' : 'n';
    }
 }
 
