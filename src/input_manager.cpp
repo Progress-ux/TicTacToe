@@ -20,26 +20,10 @@ void InputManager::waitForEnter()
 
 int InputManager::getNumber()
 {
-
    std::string line;
    while (true) 
    {
-      std::cout << "Enter choice: ";
-      if (!std::getline(std::cin, line))
-      {
-         std::cout << "--- Invalid input! Please enter a valid number!\n";
-         continue;
-      }
-
-      line.erase(0, line.find_first_not_of(" \t\n\r"));
-      line.erase(line.find_last_not_of(" \t\n\r") + 1);
-
-      if (line.empty())
-      {
-         std::cout << "--- Input cannot be empty!\n";
-         continue;
-      }
-
+      line = getUserInput("--- Invalid input! Please enter a valid number!");
       try
       {
          size_t pos;
@@ -54,7 +38,7 @@ int InputManager::getNumber()
          return number;
 
       } catch(const std::invalid_argument& e) {
-         std::cout << "--- Not a number! Please enter a number from the menu list.\n";
+         std::cout << "--- Not a number! Please enter a valid number!\n";
       } catch(const std::out_of_range& e) {
          std::cout << "--- Number is too large!\n";
       } catch(const std::exception& e) {
