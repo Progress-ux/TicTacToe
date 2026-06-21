@@ -13,11 +13,11 @@ add_executable(game
    src/game.cpp 
    src/network.cpp 
    src/input_manager.cpp
-   src/game_modes.cpp
    src/config_manager.cpp
-   src/menu_manager.cpp
    src/bot.cpp
    src/settings_menu.cpp
+   src/single_game_menu.cpp
+   src/multi_game_menu.cpp
 )
 
 target_link_libraries(game 
