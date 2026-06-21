@@ -63,6 +63,23 @@ int InputManager::getNumber()
    }
 }
 
+char InputManager::getYesOrNot()
+{
+   std::string line;
+   if(!std::getline(std::cin, line))
+   {
+      return 'n';
+   }
+
+   line.erase(0, line.find_first_not_of(" \t\n\r"));
+   line.erase(line.find_last_not_of(" \t\n\r") + 1);
+
+   if (line.empty()) return 'n';
+
+   char first = std::tolower(line[0]);
+   return (first == 'y') ? 'y' : 'n';
+}
+
 int InputManager::getNextMove(TicTacToe &game)
 {
    std::string line;

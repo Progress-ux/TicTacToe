@@ -7,26 +7,6 @@
 #include <iostream>
 #include <limits>
 
-namespace 
-{
-   char getYesOrNot()
-   {
-      std::string line;
-      if(!std::getline(std::cin, line))
-      {
-         return 'n';
-      }
-
-      line.erase(0, line.find_first_not_of(" \t\n\r"));
-      line.erase(line.find_last_not_of(" \t\n\r") + 1);
-
-      if (line.empty()) return 'n';
-
-      char first = std::tolower(line[0]);
-      return (first == 'y') ? 'y' : 'n';
-   }
-}
-
 namespace MenuManager
 {
    void showMainMenu()
@@ -316,7 +296,7 @@ namespace MenuManager
             
             std::cout << "Are you sure you want to save the settings? [y/N]: ";
             
-            if(getYesOrNot() != 'y')
+            if(InputManager::getYesOrNot() != 'y')
             {
                std::cout << "Settings not saved!\n";
                InputManager::waitForEnter();
@@ -340,7 +320,7 @@ namespace MenuManager
                break;
             
             std::cout << "Are you sure you want to reset the changes? [y/N]: ";
-            if(getYesOrNot() != 'y')
+            if(InputManager::getYesOrNot() != 'y')
                break;
             
             address = ConfigManager::getInstance().getServerIp();
@@ -357,7 +337,7 @@ namespace MenuManager
          case 7:
          {
             std::cout << "Are you sure you want to reset your settings to default values? [y/N]: ";
-            if(getYesOrNot() != 'y')
+            if(InputManager::getYesOrNot() != 'y')
                break;
             
             ConfigManager::getInstance().resetToDefault();
@@ -377,7 +357,7 @@ namespace MenuManager
             if(isChanged)
             {
                std::cout << "All unsaved settings will be reset. Are you sure you want to exit? [y/N]: ";
-               if(getYesOrNot() != 'y')
+               if(InputManager::getYesOrNot() != 'y')
                   break;
             }
             isRunningSettingsMenu = false;

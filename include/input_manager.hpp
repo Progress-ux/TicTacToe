@@ -7,5 +7,6 @@ namespace InputManager
    int getNextMove(TicTacToe& game);
    void waitForEnter();
    int getNumber();
+   char getYesOrNot();
 } // namespace InputManager
 
