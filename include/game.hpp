@@ -24,4 +24,6 @@ public:
    void switchPlayer();
 
    std::vector<char>& getCells();
+   
+   void fieldRendering();
 };
