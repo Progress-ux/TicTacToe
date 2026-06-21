@@ -80,7 +80,7 @@ namespace MenuManager
          InputManager::clearScreen();
 
          showSinglePlayMenu();
-         int number = getNumber();
+         int number = InputManager::getNumber();
 
          switch (number)
          {
@@ -120,7 +120,7 @@ namespace MenuManager
          InputManager::clearScreen();
          
          showSetCurrentPlayerMenu();
-         int number = getNumber();
+         int number = InputManager::getNumber();
 
          switch (number)
          {
@@ -139,50 +139,7 @@ namespace MenuManager
       return 'e';
    }
 
-   int getNumber()
-   {
-
-      std::string line;
-      while (true) 
-      {
-         std::cout << "Enter choice: ";
-         if (!std::getline(std::cin, line))
-         {
-            std::cout << "--- Invalid input! Please enter a valid number!\n";
-            continue;
-         }
-
-         line.erase(0, line.find_first_not_of(" \t\n\r"));
-         line.erase(line.find_last_not_of(" \t\n\r") + 1);
-
-         if (line.empty())
-         {
-            std::cout << "--- Input cannot be empty!\n";
-            continue;
-         }
-
-         try
-         {
-            size_t pos;
-            int number = std::stoi(line, &pos);
-            
-            if (!(pos == line.length()))
-            {
-               std::cout << "--- Invalid characters after number: '" << line.substr(pos) << "'\n";
-               continue;
-            }
-
-            return number;
-
-         } catch(const std::invalid_argument& e) {
-            std::cout << "--- Not a number! Please enter a number from the menu list.\n";
-         } catch(const std::out_of_range& e) {
-            std::cout << "--- Number is too large!\n";
-         } catch(const std::exception& e) {
-            std::cout << "--- Unexpected error: " << e.what() << "\n";
-         }
-      }
-   }
+   
 
    void showGetModeMenu()
    {
@@ -204,7 +161,7 @@ namespace MenuManager
          InputManager::clearScreen();
          
          showGetModeMenu();
-         int number = getNumber();
+         int number = InputManager::getNumber();
 
          switch (number)
          {
@@ -238,7 +195,7 @@ namespace MenuManager
 
          showSettingsMenu(address, port);
 
-         int number = getNumber();
+         int number = InputManager::getNumber();
          if (number > 7 || number < 0)
          {
             std::cout << "--- Invalid input! Please enter a number from the list\n";

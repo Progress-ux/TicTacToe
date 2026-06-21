@@ -20,5 +20,4 @@ namespace MenuManager
    void showGetModeMenu();
    NetworkMode runGetModeMenu();
 
-   int getNumber();
 } // namespace MenuManager
