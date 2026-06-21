@@ -33,13 +33,6 @@ int main(int argc, const char** argv)
       std::cout << "Enter choice: ";
       int number = InputManager::getNumber();
 
-      if (number > 3 || number < 0)
-      {
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
-         InputManager::waitForEnter();
-         continue;
-      }
-
       switch (number)
       {
       case 1: // Single game
@@ -67,6 +60,8 @@ int main(int argc, const char** argv)
          }
       
       default:
+         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         InputManager::waitForEnter();
          break;
       }
    }
