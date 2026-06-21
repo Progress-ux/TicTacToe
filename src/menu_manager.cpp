@@ -190,21 +190,7 @@ namespace MenuManager
             while(true)
             {
                std::cout << "New address: ";
-
-               if (!std::getline(std::cin, new_address))
-               {
-                  std::cout << "--- Invalid input! Please enter new IP\n";
-                  continue;
-               }
-
-               new_address.erase(0, new_address.find_first_not_of(" \t\n\r"));
-               new_address.erase(new_address.find_last_not_of(" \t\n\r") + 1);
-               
-               if(new_address.empty())
-               {
-                  std::cout << "--- Input cannot be empty!\n";
-                  continue;
-               }
+               new_address = InputManager::getUserInput("--- Invalid input! Please enter new IP");
 
                if (!ConfigManager::validationServerIp(new_address))
                {
@@ -226,20 +212,7 @@ namespace MenuManager
             while (true)
             {
                std::cout << "New port: ";
-               if(!std::getline(std::cin, line))
-               {
-                  std::cout << "--- Invalid input! Please enter new port\n";
-                  continue;
-               }
-               
-               line.erase(0, line.find_first_not_of(" \t\n\r"));
-               line.erase(line.find_last_not_of(" \t\n\r") + 1);
-
-               if (line.empty())
-               {
-                  std::cout << "--- Input cannot be empty!\n";
-                  continue;
-               }
+               line = InputManager::getUserInput("--- Invalid input! Please enter new port");
 
                try
                {

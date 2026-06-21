@@ -80,6 +80,29 @@ char InputManager::getYesOrNot()
    return (first == 'y') ? 'y' : 'n';
 }
 
+std::string &InputManager::getUserInput(const std::string &invalid_input_message)
+{
+   std::string line;
+   while (true)
+   {
+      if (!std::getline(std::cin, line))
+      {
+         std::cout << invalid_input_message << "\n";
+         continue;
+      }
+      
+      line.erase(0, line.find_first_not_of(" \t\n\r"));
+      line.erase(line.find_last_not_of(" \t\n\r") + 1);
+      
+      if(line.empty())
+      {
+         std::cout << "--- Input cannot be empty!\n";
+         continue;
+      }
+      return line;
+   }
+}
+
 int InputManager::getNextMove(TicTacToe &game)
 {
    std::string line;
