@@ -1,11 +1,21 @@
-#include "game_modes.hpp"
 #include "config_manager.hpp"
 #include "input_manager.hpp"
-#include "menu_manager.hpp"
 #include "settings_menu.hpp"
+
+#include "single_game_menu.hpp"
+#include "multi_game_menu.hpp"
 
 #include <limits>
 #include <iostream>
+
+void showMainMenu()
+{
+   std::cout << "=== Tic Tac Toe ===\n";
+   std::cout << "1. Play Single Player\n";
+   std::cout << "2. Play Multi Player\n";
+   std::cout << "3. Settings\n";
+   std::cout << "0. Exit\n";
+}
 
 int main(int argc, const char** argv) 
 {
@@ -29,7 +39,7 @@ int main(int argc, const char** argv)
    while(isRunningGame)
    {
       InputManager::clearScreen();
-      MenuManager::showMainMenu();
+      showMainMenu();
       std::cout << "Enter choice: ";
       int number = InputManager::getNumber();
 
@@ -37,13 +47,14 @@ int main(int argc, const char** argv)
       {
       case 1: // Single game
          {
-            MenuManager::runSinglePlayMenu();
+            SingleGameMenu menu;
+            menu.runPlayMenu();
             break;
          }
       case 2: // Multiplayer game
          {
-            InputManager::clearScreen();
-            GameMode::runMultiplayerGame();
+            MultiGameMenu menu;
+            menu.runPlayMenu();
             break;
          }
       case 3: // Settings menu
