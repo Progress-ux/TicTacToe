@@ -2,6 +2,8 @@
 #include "config_manager.hpp"
 #include "input_manager.hpp"
 #include "menu_manager.hpp"
+#include "settings_menu.hpp"
+
 #include <limits>
 #include <iostream>
 
@@ -28,7 +30,8 @@ int main(int argc, const char** argv)
    {
       InputManager::clearScreen();
       MenuManager::showMainMenu();
-      int number = MenuManager::getNumber();
+      std::cout << "Enter choice: ";
+      int number = InputManager::getNumber();
 
       if (number > 3 || number < 0)
       {
@@ -52,7 +55,8 @@ int main(int argc, const char** argv)
          }
       case 3: // Settings menu
          {
-            MenuManager::runSettingsMenu();
+            SettingsMenu menu;
+            menu.run();
             break;
          }
       case 0: // Exit
