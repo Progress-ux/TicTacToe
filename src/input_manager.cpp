@@ -23,7 +23,7 @@ int InputManager::getNumber()
    std::string line;
    while (true) 
    {
-      line = getUserInput("--- Invalid input! Please enter a valid number!");
+      getUserInput(line, "--- Invalid input! Please enter a valid number!");
       try
       {
          size_t pos;
@@ -64,9 +64,8 @@ char InputManager::getYesOrNot()
    return (first == 'y') ? 'y' : 'n';
 }
 
-std::string &InputManager::getUserInput(const std::string &invalid_input_message)
+void InputManager::getUserInput(std::string& line, const std::string &invalid_input_message)
 {
-   std::string line;
    while (true)
    {
       if (!std::getline(std::cin, line))
@@ -83,7 +82,7 @@ std::string &InputManager::getUserInput(const std::string &invalid_input_message
          std::cout << "--- Input cannot be empty!\n";
          continue;
       }
-      return line;
+      break;
    }
 }
 

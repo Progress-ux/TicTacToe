@@ -10,6 +10,6 @@ namespace InputManager
 
    int getNumber();
    char getYesOrNot();
-   std::string& getUserInput(const std::string& invalid_input_message);
+   void getUserInput(std::string& line, const std::string& invalid_input_message);
 } // namespace InputManager
 
