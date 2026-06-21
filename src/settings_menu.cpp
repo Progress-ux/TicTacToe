@@ -3,6 +3,7 @@
 #include "config_manager.hpp"
 #include "input_manager.hpp"
 
+#include <string>
 #include <iostream>
 
 void SettingsMenu::show() const
@@ -81,6 +82,10 @@ void SettingsMenu::applyChanges()
    ConfigManager::getInstance().save();
 }
 
+SettingsMenu::SettingsMenu() : isChanged{false}
+{
+}
+
 void SettingsMenu::run()
 {
    getSettingsFromConfig();
@@ -89,6 +94,7 @@ void SettingsMenu::run()
       InputManager::clearScreen();
       show();
 
+      std::cout << "Enter choice: ";
       int number = InputManager::getNumber();
 
       switch (number)

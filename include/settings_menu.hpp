@@ -15,5 +15,6 @@ private:
    void applyChanges();
 
 public:
+   SettingsMenu();
    void run();
 };
