@@ -25,5 +25,5 @@ public:
 
    std::vector<char>& getCells();
    
-   void fieldRendering();
+   void fieldRendering() const;
 };

@@ -63,7 +63,7 @@ std::vector<char> &TicTacToe::getCells()
    return cells;
 }
 
-void TicTacToe::fieldRendering()
+void TicTacToe::fieldRendering() const
 {
    std::cout << " " << cells[0] << " | " << cells[1] << " | " << cells[2] << "\n";   
    std::cout << "---+---+---\n";
