@@ -34,9 +34,7 @@ int main(int argc, const char** argv)
       InputManager::waitForEnter();
    }
    
-   bool isRunningGame = true;
-
-   while(isRunningGame)
+   while(true)
    {
       InputManager::clearScreen();
       showMainMenu();
@@ -66,8 +64,7 @@ int main(int argc, const char** argv)
       case 0: // Exit
          {
             InputManager::clearScreen();
-            isRunningGame = false;
-            break;
+            return 0;
          }
       
       default:
