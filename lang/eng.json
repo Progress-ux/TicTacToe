@@ -1,0 +1,100 @@
+{
+   "errors": {
+      "invalid_characters": "Invalid characters after number:",
+      "invalid_arguments": "Not a number! Please enter a valid number!",
+      "out_of_range": "Number is too large!",
+      "exception": "Unexpected error:",
+      "empty_input": "Input cannot be empty!",
+
+      "enter_only_number": "Please enter only a number between 0 and 8.",
+      "game_range_number": "Number must be between 0 and 8!",
+      "enter_number_from_list": "Invalid input! Please enter a number from the list",
+
+      "server_runtime_error": "Error: Server did not respond",
+      "addr_error_input": "Invalid input! Please enter new IP",
+      "port_error_input": "Port must be between 0 and 65535!",
+
+      "validate_ip": "Incorrect server IP, please check config",
+      "validate_port": "Incorrect server Port, please check config",
+
+      "not_save_config": "Error: Could not save config",
+      "incorrect_ip": "Incorrect server IP",
+      "incorrect_port": "Incorrect server Port"
+   },
+   
+   "input": {
+      "turn": "Your turn",
+      "enter_cell": "Enter cell (0-8):",
+      "enter_choice": "Enter choice:"
+   },
+
+   "main_menu": {
+      "title": "=== Tic Tac Toe ===",
+      "single": "1. Play Single Player",
+      "multi": "2. Play Multi Player",
+      "settings": "3. Settings",
+      "exit": "0. Exit"
+   },
+
+   "network_menu": {
+      "title": "=== Server or Client mode ===",
+      "enter_choice": "Select mode:",
+      "server": "1. Server",
+      "client": "2. Client",
+      "back": "0. Back"
+   },
+
+   "settings_menu": {
+      "title": "=== Settings ===",
+      "address": "Address(IP):",
+      "port": "Port:",
+      "username": "Name user profile:",
+      "language": "Language:",
+      "change_addr": "1. Change address",
+      "change_port": "2. Change port",
+      "change_username": "3. Change Username",
+      "change_lang": "4. Change language",
+      "save": "5. Save settings",
+      "reset_changes_menu": "6. Reset changes",
+      "reset_to_def_menu": "7. Reset settings to default",
+      "back": "0. Back",
+
+      "save_setting": "Are you sure you want to save the settings? [y/N]:",
+      "settings_not_saved": "Settings not saved!",
+      "saved_success": "Settings saved successfully!",
+      "reset_changes_mes": "Are you sure you want to reset the changes? [y/N]:",
+      "changes_reset_success": "Settings changes reset",
+      "reset_to_def_mes": "Are you sure you want to reset your settings to default values? [y/N]:",
+      "reset_to_def_success": "Settings reset to default",
+      "unsaved_settings": "All unsaved settings will be reset. Are you sure you want to exit? [y/N]:"
+
+   },
+
+   "difficulty_menu": {
+      "title": "=== Single Player ===",
+      "enter_choice": "Select bot difficulty:",
+      "easy": "1. Easy bot",
+      "hard": "2. Hard bot",
+      "back": "0. Back"
+   },
+
+   "player_menu": {
+      "title": "=== Select a player ===",
+      "player_x": "1. Player - [x]",
+      "player_o": "2. Player - [o]",
+      "back": "0. Back"
+   },   
+
+   "game": {
+      "win": "Congratulations! You won!",
+      "defeat": "Opponent won. Better luck next time!",
+      "draw": "It's a draw! No more moves left."
+   },
+   
+   "network_game": {
+      "wait_opponent": "Waiting for opponent's move...",
+      "connect_broken": "The connection was broken.",
+      "cheat_detect": "Cheat detected! Invalid move."
+   }
+   
+}
