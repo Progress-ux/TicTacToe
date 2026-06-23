@@ -18,6 +18,13 @@ add_executable(game
    src/settings_menu.cpp
    src/single_game_menu.cpp
    src/multi_game_menu.cpp
+   src/language_manager.cpp
+)
+
+add_custom_command(TARGET game POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy_directory
+   "${CMAKE_CURRENT_SOURCE_DIR}/lang"
+   "$<TARGET_FILE_DIR:game>/lang"
 )
 
 target_link_libraries(game 
