@@ -115,19 +115,19 @@ int InputManager::getNextMove(TicTacToe &game)
 
          if (!(pos == line.length())) 
          {
-            std::cout << "--- Invalid characters after number: '" << line.substr(pos) << "'\tPlease enter only a number between 0 and 8.\n";
+            std::cout << Loc::get("errors.invalid_characters") << " '" << line.substr(pos) << "'\t" << Loc::get("errors.enter_only_number") << "\n";
             continue;
          }
 
          if (number < 0 || number > 8) 
          {
-            std::cout << "--- Number must be between 0 and 8!\n";
+            std::cout << Loc::get("errors.game_range_number") << "\n";
             continue;
          }
 
          if (!game.canMove(number))
          {
-            std::cout << "--- Cell " << number << " is already taken!\n";
+            std::cout << Loc::get("errors.cell_taken") << "\n";
             continue;
          }
 
