@@ -1,27 +1,30 @@
 #include "single_game_menu.hpp"
 
 #include "input_manager.hpp"
+#include "language_manager.hpp"
 
 #include <iostream>
 #include <memory>
 
 void SingleGameMenu::showSelectDifficultyMenu() const
 {
-   std::cout << "=== Single Player ===\n\n";
+   std::cout << Loc::get("difficulty_menu.title") << "\n\n";
 
-   std::cout << "Select bot difficulty:\n";
-   std::cout << "1. Easy bot\n";
-   std::cout << "2. Hard bot\n";
+   std::cout << Loc::get("difficulty_menu.select_difficulty") << "\n";
+   std::cout << Loc::get("difficulty_menu.easy") << "\n";
+   std::cout << Loc::get("difficulty_menu.hard") << "\n\n";
    
-   std::cout << "\n0. Back\n";
+   std::cout << Loc::get("difficulty_menu.back") << "\n\n";
 }
 
 void SingleGameMenu::showSelectPlayerMenu() const
 {
-   std::cout << "=== Select a player ===\n\n";
-   std::cout << "1. Player - [x]\n";
-   std::cout << "2. Player - [o]\n";
-   std::cout << "0. Back\n\n";
+   std::cout << Loc::get("player_menu.title") << "\n\n";
+
+   std::cout << Loc::get("player_menu.player_x") << "\n";
+   std::cout << Loc::get("player_menu.player_o") << "\n\n";
+   
+   std::cout << Loc::get("player_menu.back") << "\n\n";
 }
 
 void SingleGameMenu::runPlayMenu()
@@ -31,7 +34,7 @@ void SingleGameMenu::runPlayMenu()
       InputManager::clearScreen();
 
       showSelectDifficultyMenu();
-      std::cout << "Enter choice: ";
+      std::cout << Loc::get("input.enter_choice") << " ";
       int number = InputManager::getNumber();
 
       switch (number)
@@ -48,11 +51,10 @@ void SingleGameMenu::runPlayMenu()
          return;
       
       default:
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
          InputManager::waitForEnter();
          continue;
       }   
-      
       runGame();
    }
    
@@ -65,6 +67,7 @@ void SingleGameMenu::runSelectPlayerMenu()
       InputManager::clearScreen();
       
       showSelectPlayerMenu();
+      std::cout << Loc::get("input.enter_choice") << " ";
       int number = InputManager::getNumber();
 
       switch (number)
@@ -77,10 +80,12 @@ void SingleGameMenu::runSelectPlayerMenu()
          player = 'o'; 
          return;
 
-      case 0: return;
+      case 0: 
+         difficulty = BotDifficulty::None;
+         return;
 
       default: 
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
          InputManager::waitForEnter();
          continue;
       }
@@ -93,6 +98,8 @@ void SingleGameMenu::runGame()
    int move;
 
    std::unique_ptr<Bot> bot;
+   
+   runSelectPlayerMenu();  
 
    if (difficulty == BotDifficulty::Easy) 
       bot = std::make_unique<EasyBot>();
@@ -100,7 +107,6 @@ void SingleGameMenu::runGame()
       bot = std::make_unique<HardBot>();
    else return;
 
-   runSelectPlayerMenu();  
 
    InputManager::clearScreen();
    if (player == 'e') return;
@@ -133,11 +139,11 @@ void SingleGameMenu::runGame()
          game.fieldRendering();
          if (isMyTurn) 
          {
-            std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
+            std::cout << Loc::get("game.win") << " [" << game.getCurrentPlayer() << "]" << "\n";
          } 
          else 
          {
-            std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
+            std::cout << Loc::get("game.defeat") << "\n";
          }
          InputManager::waitForEnter();
          break;
@@ -147,7 +153,7 @@ void SingleGameMenu::runGame()
       {
          InputManager::clearScreen();
          game.fieldRendering();
-         std::cout << "It's a draw! No more moves left.\n";
+         std::cout << Loc::get("game.draw") << "\n";
          InputManager::waitForEnter();
          break;
       }
