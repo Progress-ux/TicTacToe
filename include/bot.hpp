@@ -33,5 +33,6 @@ public:
 enum class BotDifficulty 
 { 
    Easy,
-   Hard
+   Hard,
+   None
 };
