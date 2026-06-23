@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <regex>
+#include <filesystem>
 
 using json = nlohmann::json;
 
@@ -23,17 +24,35 @@ bool ConfigManager::validationServerPort(int port)
    return port > 0 && port <= 65535; 
 }
 
+std::string ConfigManager::getLang() const
+{
+   return languageFilename;
+}
+
+void ConfigManager::setLang(const std::string& filename) 
+{
+   languageFilename = filename;
+}
 
 void ConfigManager::load()
 {
-   std::ifstream file("config.json");
-   if (!file.is_open())
+   std::filesystem::path configPath = "data/config.json";
+
+   if (!std::filesystem::exists(configPath))
    {
       resetToDefault();
-      save();
+
+      std::error_code ec;
+      std::filesystem::create_directories(configPath.parent_path(), ec);
+
+      if (!ec) 
+      {
+         save();
+      }
       return;
    }
 
+   std::ifstream file(configPath);
    json data;
    try 
    {
@@ -47,7 +66,8 @@ void ConfigManager::load()
       return;
    }
 
-   if(!data.contains("network") || !data["network"].is_object())
+   if(!data.contains("network") || !data["network"].is_object() ||
+      !data.contains("language") || !data["language"].is_object())
    {
       resetToDefault();
       return;
@@ -76,11 +96,20 @@ void ConfigManager::load()
    serverPort = static_cast<unsigned short>(tempServerPort);
    timeout = network.value("timeout", 15.0);
 
+   languageFilename = data["language"];
 }
 
 void ConfigManager::save()
 {
-   std::ofstream file("config.json");
+   std::filesystem::path configPath = "data/config.json";
+
+   if (!std::filesystem::exists(configPath))
+   {
+      std::error_code ec;
+      std::filesystem::create_directories(configPath.parent_path(), ec);
+   }
+
+   std::ofstream file(configPath);
    if (!file.is_open())
    {
       throw std::runtime_error("Error: Could not save config");
@@ -100,6 +129,8 @@ void ConfigManager::save()
    data["network"]["serverIp"] = serverIp;
    data["network"]["serverPort"] = serverPort;
    data["network"]["timeout"] = timeout;
+   
+   data["language"] = languageFilename;
 
    file << data.dump(4) << std::endl;
 }
@@ -109,4 +140,6 @@ void ConfigManager::resetToDefault()
    serverIp = "127.0.0.1";
    serverPort = 53000;
    timeout = 15.0;
+
+   languageFilename = "lang/eng.json";
 }

@@ -9,6 +9,8 @@ private:
    unsigned short serverPort;
    float timeout;
 
+   std::string languageFilename;
+
    ConfigManager() = default;
 public:
    ConfigManager(const ConfigManager&) = delete;
@@ -27,6 +29,9 @@ public:
 
    float getTimeout() const { return timeout; }
    void setTimeout(float timeout) { this->timeout = timeout; }
+
+   std::string getLang() const;
+   void setLang(const std::string& filename);
 
    void load();
    void save();
