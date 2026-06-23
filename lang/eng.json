@@ -39,8 +39,10 @@
 
    "network_menu": {
       "title": "=== Server or Client mode ===",
+      "select": "Select mode:",
       "server": "1. Server",
-      "client": "2. Client"
+      "client": "2. Client",
+      "back": "0. Back"
    },
 
    "settings_menu": {
