@@ -9,7 +9,6 @@
 
 void SettingsMenu::show() const
 {
-   std::cout << "=== Settings ===\n\n";
    std::cout << Loc::get("settings_menu.title") << "\n\n";
    
    std::cout << Loc::get("settings_menu.address") << " " << serverIp << "\n";
