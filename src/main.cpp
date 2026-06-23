@@ -26,7 +26,6 @@ int main(int argc, const char** argv)
       if (!Loc::load(ConfigManager::getInstance().getLang()))
       {
          std::cerr << "Failed to download language pack\n";
-         InputManager::waitForEnter();
          return 0;
       }
    }
