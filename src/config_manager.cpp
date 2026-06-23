@@ -66,8 +66,7 @@ void ConfigManager::load()
       return;
    }
 
-   if(!data.contains("network") || !data["network"].is_object() ||
-      !data.contains("language") || !data["language"].is_object())
+   if(!data.contains("network") || !data["network"].is_object() || !data.contains("language"))
    {
       resetToDefault();
       return;
