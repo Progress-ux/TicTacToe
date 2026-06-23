@@ -2,6 +2,7 @@
 
 #include "config_manager.hpp"
 #include "input_manager.hpp"
+#include "language_manager.hpp"
 
 #include <string>
 #include <iostream>
@@ -9,23 +10,24 @@
 void SettingsMenu::show() const
 {
    std::cout << "=== Settings ===\n\n";
+   std::cout << Loc::get("settings_menu.title") << "\n\n";
    
-   std::cout << "Address(IP): " << serverIp << "\n";
-   std::cout << "Port: " << serverPort << "\n";
+   std::cout << Loc::get("settings_menu.address") << " " << serverIp << "\n";
+   std::cout << Loc::get("settings_menu.port") << " " << serverPort << "\n";
 
-   std::cout << "Name user profile: " << "-- under development --\n";
-   std::cout << "Language: " << "-- under development --\n\n";
+   std::cout << Loc::get("settings_menu.username") << " -- under development --\n";
+   std::cout << Loc::get("settings_menu.language") << " " << "\n\n";
 
-   std::cout << "1. Change address\n";
-   std::cout << "2. Change port\n\n";
+   std::cout << Loc::get("settings_menu.change_addr") << "\n";
+   std::cout << Loc::get("settings_menu.change_port") << "\n\n";
 
-   std::cout << "3. Change Username\n";
-   std::cout << "4. Change language\n\n";
+   std::cout << Loc::get("settings_menu.change_username") << "\n";
+   std::cout << Loc::get("settings_menu.change_lang") << "\n\n";
 
-   std::cout << "5. Save settings\n";
-   std::cout << "6. Reset changes\n";
-   std::cout << "7. Reset settings to default\n\n";
-   std::cout << "0. Back\n";
+   std::cout << Loc::get("settings_menu.save") << "\n";
+   std::cout << Loc::get("settings_menu.reset_changes_menu") << "\n";
+   std::cout << Loc::get("settings_menu.reset_to_def_menu") << "\n\n";
+   std::cout << Loc::get("settings_menu.back") << "\n";
 }
 
 void SettingsMenu::changeAddress()
@@ -33,12 +35,12 @@ void SettingsMenu::changeAddress()
    std::string new_address;
    while(true)
    {
-      std::cout << "New address: ";
-      InputManager::getUserInput(new_address, "--- Invalid input! Please enter new IP");
+      std::cout << Loc::get("settings_menu.new_addr") << " ";
+      InputManager::getUserInput(new_address, Loc::get("errors.addr_error_input"));
 
       if (!ConfigManager::validationServerIp(new_address))
       {
-         std::cout << "\n--- Invalid input! Please enter new IP\n\n";
+         std::cout << "\n" << Loc::get("errors.addr_error_input") << "\n\n";
          continue;
       }
       break;
@@ -53,12 +55,12 @@ void SettingsMenu::changePort()
    unsigned short new_port;
    while (true)
    {
-      std::cout << "New port: ";
+      std::cout << Loc::get("settings_menu.new_port") << " ";
       int value = InputManager::getNumber();
 
       if (!ConfigManager::getInstance().validationServerPort(value))
       {
-         std::cout << "--- Port must be between 0 and 65535!\n";
+         std::cout << Loc::get("errors.port_error_input") << "\n";
          continue;
       }
 
@@ -94,7 +96,7 @@ void SettingsMenu::run()
       InputManager::clearScreen();
       show();
 
-      std::cout << "Enter choice: ";
+      std::cout << Loc::get("input.enter_choice") << " ";
       int number = InputManager::getNumber();
 
       switch (number)
@@ -124,17 +126,17 @@ void SettingsMenu::run()
          if(!isChanged)
             break;
          
-         std::cout << "Are you sure you want to save the settings? [y/N]: ";
+         std::cout << Loc::get("settings_menu.save_setting") << " ";
          
          if(InputManager::getYesOrNot() != 'y')
          {
-            std::cout << "Settings not saved!\n";
+            std::cout << Loc::get("settings_menu.settings_not_saved") << "\n";
             InputManager::waitForEnter();
             break;
          }
          applyChanges();
          
-         std::cout << "Settings saved successfully!\n";
+         std::cout << Loc::get("settings_menu.saved_success") << "\n";
          isChanged = false;
          InputManager::waitForEnter();
 
@@ -146,7 +148,7 @@ void SettingsMenu::run()
          if(!isChanged)
             break;
          
-         std::cout << "Are you sure you want to reset the changes? [y/N]: ";
+         std::cout << Loc::get("settings_menu.reset_changes_mes") << " ";
          if(InputManager::getYesOrNot() != 'y')
             break;
          
@@ -154,7 +156,7 @@ void SettingsMenu::run()
 
          isChanged = false;
 
-         std::cout << "Settings changes reset\n";
+         std::cout << Loc::get("settings_menu.changes_reset_success") << "\n";
          InputManager::waitForEnter();
 
          break;
@@ -162,7 +164,7 @@ void SettingsMenu::run()
 
       case 7: // Reset settings to default
       {
-         std::cout << "Are you sure you want to reset your settings to default values? [y/N]: ";
+         std::cout << Loc::get("settings_menu.reset_to_def_mes") << " ";
          if(InputManager::getYesOrNot() != 'y')
             break;
          
@@ -172,7 +174,7 @@ void SettingsMenu::run()
 
          isChanged = false;
 
-         std::cout << "Settings reset to default\n";
+         std::cout << Loc::get("settings_menu.reset_to_def_success") << "\n";
          InputManager::waitForEnter();
 
          break;
@@ -182,14 +184,14 @@ void SettingsMenu::run()
       {
          if(isChanged)
          {
-            std::cout << "All unsaved settings will be reset. Are you sure you want to exit? [y/N]: ";
+            std::cout << Loc::get("settings_menu.unsaved_settings") << " ";
             if(InputManager::getYesOrNot() != 'y')
                break;
          }
          return;
       }
       default:
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
          break;
       }
    }
