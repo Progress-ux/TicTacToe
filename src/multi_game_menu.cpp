@@ -2,6 +2,7 @@
 
 #include "input_manager.hpp"
 #include "game.hpp"
+#include "language_manager.hpp"
 
 #include <iostream>
 #include <memory>
@@ -35,20 +36,20 @@ void MultiGameMenu::runGame()
       }
       else
       {
-         std::cout << "Waiting for opponent's move...\n";
+         std::cout << Loc::get("network_game.wait_opponent") << "\n";
          move = network->receiveMove();
       }
 
       if (move < 0) 
       {
-         std::cerr << "The connection was broken." << std::endl;
+         std::cout << Loc::get("network_game.connect_broken") << "\n";
          InputManager::waitForEnter();
          break;
       }
       
       if (!game.canMove(move))
       {
-         std::cerr << "Cheat detected! Invalid move." << std::endl;
+         std::cerr << Loc::get("network_game.cheat_detect") << "\n";
          InputManager::waitForEnter();
          break;
       }
@@ -60,11 +61,11 @@ void MultiGameMenu::runGame()
          game.fieldRendering();
          if (isMyTurn) 
          {
-            std::cout << "Congratulations! You [" << game.getCurrentPlayer() << "] won!\n";
+            std::cout << Loc::get("game.win") << " [" << game.getCurrentPlayer() << "]" << "\n";
          } 
          else 
          {
-            std::cout << "Opponent [" << game.getCurrentPlayer() << "] won. Better luck next time!\n";
+            std::cout << Loc::get("game.defeat") << "\n";
          }
          InputManager::waitForEnter();
          break;
@@ -74,7 +75,7 @@ void MultiGameMenu::runGame()
       {
          InputManager::clearScreen();
          game.fieldRendering(); 
-         std::cout << "It's a draw! No more moves left.\n";
+         std::cout << Loc::get("game.draw") << "\n";
          InputManager::waitForEnter();
          break;
       }
@@ -86,13 +87,13 @@ void MultiGameMenu::runGame()
 
 void MultiGameMenu::showSelectNetworkModeMenu()
 {
-   std::cout << "=== Server or Client mode ===\n\n";
+   std::cout << Loc::get("network_menu.title") << "\n\n";
 
-   std::cout << "Select mode:\n";
-   std::cout << "1. Server\n";
-   std::cout << "2. Client\n";
+   std::cout << Loc::get("network_menu.select") << "\n";
+   std::cout << Loc::get("network_menu.server") << "\n";
+   std::cout << Loc::get("network_menu.client") << "\n";
    
-   std::cout << "\n0. Back\n";
+   std::cout << Loc::get("network_menu.back") << "\n";
 }
 
 void MultiGameMenu::runPlayMenu()
@@ -102,7 +103,7 @@ void MultiGameMenu::runPlayMenu()
       InputManager::clearScreen();
 
       showSelectNetworkModeMenu();
-      std::cout << "Enter choice: ";
+      std::cout << Loc::get("input.enter_choice") << " ";
       int number = InputManager::getNumber();
 
       switch (number)
@@ -119,7 +120,7 @@ void MultiGameMenu::runPlayMenu()
          return;
       
       default:
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
          InputManager::waitForEnter();
          continue;
       }   
