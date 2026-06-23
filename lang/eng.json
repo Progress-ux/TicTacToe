@@ -25,7 +25,8 @@
    "input": {
       "turn": "Your turn",
       "enter_cell": "Enter cell (0-8):",
-      "enter_choice": "Enter choice:"
+      "enter_choice": "Enter choice:",
+      "wait_enter": "Press Enter to continue..."
    },
 
    "main_menu": {
