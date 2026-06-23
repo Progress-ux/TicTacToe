@@ -76,6 +76,7 @@
 
    "difficulty_menu": {
       "title": "=== Single Player ===",
+      "select_difficulty": "Select bot difficulty:",
       "easy": "1. Easy bot",
       "hard": "2. Hard bot",
       "back": "0. Back"
