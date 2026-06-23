@@ -1,6 +1,7 @@
 #include "network.hpp"
 
 #include "config_manager.hpp"
+#include "language_manager.hpp"
 
 std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(NetworkMode mode)
 {
@@ -32,7 +33,7 @@ std::unique_ptr<NetworkManager> NetworkManager::createNetworkManager(NetworkMode
       
       if (!connected)
       {
-         throw std::runtime_error("Error: Server did not respond");
+         throw std::runtime_error(Loc::get("errors.server_runtime_error"));
       }
       return c;
    }
