@@ -45,7 +45,7 @@ int main(int argc, const char** argv)
    {
       InputManager::clearScreen();
       showMainMenu();
-      std::cout << Loc::get("input.enter_choice");
+      std::cout << Loc::get("input.enter_choice") << " ";
       int number = InputManager::getNumber();
 
       switch (number)
