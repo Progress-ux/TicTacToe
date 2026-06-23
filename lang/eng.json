@@ -67,7 +67,10 @@
       "changes_reset_success": "Settings changes reset",
       "reset_to_def_mes": "Are you sure you want to reset your settings to default values? [y/N]:",
       "reset_to_def_success": "Settings reset to default",
-      "unsaved_settings": "All unsaved settings will be reset. Are you sure you want to exit? [y/N]:"
+      "unsaved_settings": "All unsaved settings will be reset. Are you sure you want to exit? [y/N]:",
+
+      "new_addr": "New address:",
+      "new_port": "New port:"
 
    },
 
