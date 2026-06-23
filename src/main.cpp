@@ -1,6 +1,7 @@
 #include "config_manager.hpp"
 #include "input_manager.hpp"
 #include "settings_menu.hpp"
+#include "language_manager.hpp"
 
 #include "single_game_menu.hpp"
 #include "multi_game_menu.hpp"
@@ -10,11 +11,11 @@
 
 void showMainMenu()
 {
-   std::cout << "=== Tic Tac Toe ===\n";
-   std::cout << "1. Play Single Player\n";
-   std::cout << "2. Play Multi Player\n";
-   std::cout << "3. Settings\n";
-   std::cout << "0. Exit\n";
+   std::cout << Loc::get("main_menu.title") << "\n";
+   std::cout << Loc::get("main_menu.single") << "\n";
+   std::cout << Loc::get("main_menu.multi") << "\n";
+   std::cout << Loc::get("main_menu.settings") << "\n";
+   std::cout << Loc::get("main_menu.exit") << "\n";
 }
 
 int main(int argc, const char** argv) 
@@ -22,6 +23,12 @@ int main(int argc, const char** argv)
    try
    {
       ConfigManager::getInstance().load();
+      if (!Loc::load(ConfigManager::getInstance().getLang()))
+      {
+         std::cerr << "Failed to download language pack\n";
+         InputManager::waitForEnter();
+         return 0;
+      }
    }
    catch(const std::runtime_error& e)
    {
@@ -38,7 +45,7 @@ int main(int argc, const char** argv)
    {
       InputManager::clearScreen();
       showMainMenu();
-      std::cout << "Enter choice: ";
+      std::cout << Loc::get("input.enter_choice");
       int number = InputManager::getNumber();
 
       switch (number)
@@ -68,7 +75,7 @@ int main(int argc, const char** argv)
          }
       
       default:
-         std::cout << "--- Invalid input! Please enter a number from the list\n";
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
          InputManager::waitForEnter();
          break;
       }
