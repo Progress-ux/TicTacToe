@@ -19,7 +19,9 @@
 
       "not_save_config": "Error: Could not save config",
       "incorrect_ip": "Incorrect server IP",
-      "incorrect_port": "Incorrect server Port"
+      "incorrect_port": "Incorrect server Port",
+
+      "cell_taken": "Cell is already taken!"
    },
    
    "input": {
