@@ -9,6 +9,10 @@
 #include <limits>
 #include <iostream>
 
+#if defined(_WIN32)
+#include <windows.h>
+#endif
+
 void showMainMenu()
 {
    std::cout << Loc::get("main_menu.title") << "\n";
@@ -39,7 +43,12 @@ int main(int argc, const char** argv)
       std::cerr << e.what() << '\n';
       InputManager::waitForEnter();
    }
-   
+
+#if defined(_WIN32)
+   SetConsoleCP(65001);
+   SetConsoleOutputCP(65001);
+#endif
+
    while(true)
    {
       InputManager::clearScreen();
