@@ -3,28 +3,68 @@
 #include "input_manager.hpp"
 #include "game.hpp"
 #include "language_manager.hpp"
+#include "config_manager.hpp"
 
 #include <iostream>
 #include <memory>
 
 void MultiGameMenu::runGame()
 {
-   TicTacToe game;
-   int move;
-   std::unique_ptr<NetworkManager> network;
-
+   InputManager::clearScreen();
    if (mode == NetworkMode::None) return;
 
-   try {
-      network = NetworkManager::createNetworkManager(mode);
-   } catch (const std::exception& e) {
-      std::cerr << e.what() << std::endl;
-      return;
+   TicTacToe game;
+
+   auto networkManager = NetworkManager::createNetworkManager(mode);
+   if (mode == NetworkMode::Server)
+   {
+      std::cout << Loc::get("network_game.wait_player") << "\n";
+      auto server = dynamic_cast<Server*>(networkManager.get());
+
+      if (server->start(ConfigManager::getInstance().getServerPort()) != NetworkStatus::Success)
+      {
+         std::cout << Loc::get("errors.port_blocked") << "\n";
+         InputManager::waitForEnter();
+         return;
+      }
+   }
+   else if (mode == NetworkMode::Client)
+   {
+      const int MAX_ATTEMPTS = 5;
+      bool connected = false;
+
+      for (int i = 0; i < MAX_ATTEMPTS; ++i)
+      {
+         std::cout << Loc::get("network_game.conn_attempt") << " " << (i + 1) << "...\n";
+         auto client = dynamic_cast<Client*>(networkManager.get());
+
+         auto status = client->connect(
+            ConfigManager::getInstance().getServerIp(),
+            ConfigManager::getInstance().getServerPort(),
+            ConfigManager::getInstance().getTimeout()
+         );
+
+         if (status == NetworkStatus::Success)
+         {
+            connected = true;
+            break;
+         }
+         sf::sleep(sf::seconds(1));
+      }
+      if (!connected)
+      {
+         std::cout << Loc::get("errors.server_runtime_error") << "\n";
+         InputManager::waitForEnter();
+         return;
+      }
    }
 
    while (true)
    {
+      InputManager::clearScreen();
       game.fieldRendering(); 
+
+      int move = -1;
 
       bool isMyTurn = (mode == NetworkMode::Server && game.getCurrentPlayer() == 'x') || 
                       (mode == NetworkMode::Client && game.getCurrentPlayer() == 'o');
@@ -32,21 +72,28 @@ void MultiGameMenu::runGame()
       if (isMyTurn) 
       {
          move = InputManager::getNextMove(game);
-         network->sendMove(move);
+         if (!networkManager->sendMove(move)) 
+         {
+            std::cout << Loc::get("network_game.connect_broken") << "\n";
+            InputManager::waitForEnter();
+            break;
+         }
       }
       else
       {
          std::cout << Loc::get("network_game.wait_opponent") << "\n";
-         move = network->receiveMove();
+
+         auto receiveMove = networkManager->receiveMove();
+         if (!receiveMove.has_value())
+         {
+            std::cout << Loc::get("network_game.connect_broken") << "\n";
+            InputManager::waitForEnter();
+            break;
+         }
+
+         move = receiveMove.value();
       }
 
-      if (move < 0) 
-      {
-         std::cout << Loc::get("network_game.connect_broken") << "\n";
-         InputManager::waitForEnter();
-         break;
-      }
-      
       if (!game.canMove(move))
       {
          std::cerr << Loc::get("network_game.cheat_detect") << "\n";
@@ -81,7 +128,6 @@ void MultiGameMenu::runGame()
       }
 
       game.switchPlayer();
-      InputManager::clearScreen();
    }
 }
 
