@@ -1,9 +1,20 @@
 #pragma once 
 #include <SFML/Network.hpp>
 #include <string>
+#include <optional>
+#include <memory>
 
 class Server;
 class Client;
+
+enum class NetworkStatus
+{
+   Success,
+   Error_PortBlocked,
+   Error_Disconnected,
+   Error_ServerUnavailable,
+   Error_InvalidAddress
+};
 
 enum class NetworkMode 
 {
@@ -21,13 +32,14 @@ public:
 
    static std::unique_ptr<NetworkManager> createNetworkManager(NetworkMode mode);
 
-   void sendMove(int index) 
+   bool sendMove(int index) 
    {
       sf::Packet packet;
       packet << index;
-      socket.send(packet);
+      return socket.send(packet) == sf::Socket::Status::Done;
    }
-   int receiveMove()
+
+   std::optional<int> receiveMove()
    {
       sf::Packet packet;
       if (socket.receive(packet) == sf::Socket::Status::Done) 
@@ -36,7 +48,7 @@ public:
          packet >> index;
          return index;
       }
-      return -1;
+      return std::nullopt;
    }
 };
 
@@ -45,10 +57,17 @@ class Server : public NetworkManager
 private:
    sf::TcpListener listener;
 public:
-   bool start(unsigned short port)
+   NetworkStatus start(unsigned short port)
    {
-      if (listener.listen(port) != sf::Socket::Status::Done) return false;
-      return listener.accept(socket) == sf::Socket::Status::Done;
+      if (listener.listen(port) != sf::Socket::Status::Done) 
+      {
+         return NetworkStatus::Error_PortBlocked;
+      }
+      if (listener.accept(socket) != sf::Socket::Status::Done)
+      {
+         return NetworkStatus::Error_Disconnected;
+      }
+      return NetworkStatus::Success;
    }
 
 };
@@ -56,10 +75,21 @@ public:
 class Client : public NetworkManager
 {
 public:
-   bool connect(const std::string& ipString, unsigned short port, float timeout) 
+   NetworkStatus connect(const std::string& ipString, unsigned short port, float timeout) 
    {
-      sf::IpAddress ip = sf::IpAddress::resolve(ipString).value_or(sf::IpAddress::Any);
-      return socket.connect(ip, port, sf::seconds(timeout)) == sf::Socket::Status::Done;
-   }
+      auto ip = sf::IpAddress::resolve(ipString);
+      if (!ip.has_value()) return NetworkStatus::Error_InvalidAddress;
+      auto status = socket.connect(ip.value(), port, sf::seconds(timeout));
 
+      if (status == sf::Socket::Status::Done) 
+      {
+         return NetworkStatus::Success;
+      }
+      if (status == sf::Socket::Status::Error)
+      {
+         return NetworkStatus::Error_ServerUnavailable;
+      }
+      
+      return NetworkStatus::Error_Disconnected;
+   }
 };
