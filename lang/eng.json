@@ -13,6 +13,7 @@
       "server_runtime_error": "Error: Server did not respond",
       "addr_error_input": "Invalid input! Please enter new IP",
       "port_error_input": "Port must be between 0 and 65535!",
+      "port_blocked": "Port blocked!",
 
       "validate_ip": "Incorrect server IP, please check config",
       "validate_port": "Incorrect server Port, please check config",
@@ -73,7 +74,6 @@
 
       "new_addr": "New address:",
       "new_port": "New port:"
-
    },
 
    "difficulty_menu": {
@@ -100,7 +100,8 @@
    "network_game": {
       "wait_opponent": "Waiting for opponent's move...",
       "connect_broken": "The connection was broken.",
-      "cheat_detect": "Cheat detected! Invalid move."
+      "cheat_detect": "Cheat detected! Invalid move.",
+      "conn_attempt": "Connect attempt:",
+      "wait_player": "Waiting player..."      
    }
-   
 }
