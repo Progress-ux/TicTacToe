@@ -77,6 +77,13 @@
       "new_port": "New port:"
    },
 
+   "language_menu" : {
+      "title": "=== Language ===",
+      "current": "Current language:",
+      "load": "Loaded languages:",
+      "back": "0. Back"
+   },
+
    "difficulty_menu": {
       "title": "=== Single Player ===",
       "select_difficulty": "Select bot difficulty:",
