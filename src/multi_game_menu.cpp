@@ -21,7 +21,7 @@ void MultiGameMenu::runGame()
       std::cout << Loc::get("network_game.wait_player") << "\n";
       auto server = dynamic_cast<Server*>(networkManager.get());
 
-      if (server->start(ConfigManager::getInstance().getServerPort()) != NetworkStatus::Success)
+      if (server->start(ConfigManager::getInstance().getServerPort(), ConfigManager::getInstance().getUsername()) != NetworkStatus::Success)
       {
          std::cout << Loc::get("errors.port_blocked") << "\n";
          InputManager::waitForEnter();
@@ -41,7 +41,8 @@ void MultiGameMenu::runGame()
          auto status = client->connect(
             ConfigManager::getInstance().getServerIp(),
             ConfigManager::getInstance().getServerPort(),
-            ConfigManager::getInstance().getTimeout()
+            ConfigManager::getInstance().getTimeout(),
+            ConfigManager::getInstance().getUsername()
          );
 
          if (status == NetworkStatus::Success)
@@ -81,7 +82,7 @@ void MultiGameMenu::runGame()
       }
       else
       {
-         std::cout << Loc::get("network_game.wait_opponent") << "\n";
+         std::cout << Loc::get("network_game.wait_opponent") << " '" << networkManager->getOpponentName() << "'\n";
 
          auto receiveMove = networkManager->receiveMove();
          if (!receiveMove.has_value())
