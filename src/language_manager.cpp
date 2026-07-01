@@ -27,6 +27,7 @@ bool Loc::load(const std::filesystem::path& filename)
 {
    std::ifstream file(filename);
    if (!file.is_open()) return false;
+   instance().data.clear();
    try 
    {
       file >> instance().data;
