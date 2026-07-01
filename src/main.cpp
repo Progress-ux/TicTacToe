@@ -4,6 +4,7 @@
 #include "language_manager.hpp"
 
 #include "single_game_menu.hpp"
+#include "double_game_menu.hpp"
 #include "multi_game_menu.hpp"
 
 #include <limits>
@@ -15,10 +16,11 @@
 
 void showMainMenu()
 {
-   std::cout << Loc::get("main_menu.title") << "\n";
+   std::cout << Loc::get("main_menu.title") << "\n\n";
    std::cout << Loc::get("main_menu.single") << "\n";
-   std::cout << Loc::get("main_menu.multi") << "\n";
-   std::cout << Loc::get("main_menu.settings") << "\n";
+   std::cout << Loc::get("main_menu.double") << "\n";
+   std::cout << Loc::get("main_menu.multi") << "\n\n";
+   std::cout << Loc::get("main_menu.settings") << "\n\n";
    std::cout << Loc::get("main_menu.exit") << "\n";
 }
 
@@ -64,13 +66,19 @@ int main(int argc, const char** argv)
             menu.runPlayMenu();
             break;
          }
-      case 2: // Multiplayer game
+      case 2: // Double game
+         {
+            DoubleGameMenu menu;
+            menu.runPlayGame();
+            break;
+         }
+      case 3: // Multiplayer game
          {
             MultiGameMenu menu;
             menu.runPlayMenu();
             break;
          }
-      case 3: // Settings menu
+      case 4: // Settings menu
          {
             SettingsMenu menu;
             menu.run();
