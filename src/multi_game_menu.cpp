@@ -136,11 +136,11 @@ void MultiGameMenu::showSelectNetworkModeMenu()
 {
    std::cout << Loc::get("network_menu.title") << "\n\n";
 
-   std::cout << Loc::get("network_menu.select") << "\n";
+   std::cout << Loc::get("network_menu.select") << "\n\n";
    std::cout << Loc::get("network_menu.server") << "\n";
-   std::cout << Loc::get("network_menu.client") << "\n";
+   std::cout << Loc::get("network_menu.client") << "\n\n";
    
-   std::cout << Loc::get("network_menu.back") << "\n";
+   std::cout << Loc::get("network_menu.back") << "\n\n";
 }
 
 void MultiGameMenu::runPlayMenu()

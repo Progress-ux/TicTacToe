@@ -21,7 +21,7 @@ void showMainMenu()
    std::cout << Loc::get("main_menu.double") << "\n";
    std::cout << Loc::get("main_menu.multi") << "\n\n";
    std::cout << Loc::get("main_menu.settings") << "\n\n";
-   std::cout << Loc::get("main_menu.exit") << "\n";
+   std::cout << Loc::get("main_menu.exit") << "\n\n";
 }
 
 int main(int argc, const char** argv) 
