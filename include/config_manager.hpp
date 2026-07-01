@@ -10,6 +10,8 @@ private:
    unsigned short serverPort;
    float timeout;
 
+   std::string username;
+
    std::filesystem::path languageFolder;
    std::string languageFilename;
 
@@ -37,6 +39,9 @@ public:
 
    std::string getLang() const;
    void setLang(const std::string& filename);
+
+   std::string getUsername() const;
+   void setUsername(const std::string& username);
 
    void load();
    void save();

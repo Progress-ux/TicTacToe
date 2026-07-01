@@ -44,6 +44,16 @@ void ConfigManager::setLang(const std::string& filename)
    languageFilename = filename;
 }
 
+std::string ConfigManager::getUsername() const
+{
+   return username;
+}
+
+void ConfigManager::setUsername(const std::string &username)
+{
+   this->username = username;
+}
+
 void ConfigManager::load()
 {
    std::filesystem::path configPath = "data/config.json";
@@ -86,6 +96,7 @@ void ConfigManager::load()
    const auto& network = data["network"];
    const auto& language = data["language"];
 
+   std::string tempUsername = network.value("username", "Guest");
    std::string tempServerIp = network.value("serverIp", "127.0.0.1");
    int tempServerPort = network.value("serverPort", 53000);
    std::string tempFolderPath = language.value("path", "");
@@ -121,6 +132,7 @@ void ConfigManager::load()
       throw std::runtime_error("Language not found, please check config");
    }
 
+   username = tempUsername;
    serverIp = tempServerIp;
    serverPort = static_cast<unsigned short>(tempServerPort);
    timeout = network.value("timeout", 15.0);
@@ -155,6 +167,7 @@ void ConfigManager::save()
    }
 
    json data;
+   data["network"]["username"] = username;
    data["network"]["serverIp"] = serverIp;
    data["network"]["serverPort"] = serverPort;
    data["network"]["timeout"] = timeout;
@@ -167,6 +180,7 @@ void ConfigManager::save()
 
 void ConfigManager::resetToDefault()
 {
+   username = "Guest";
    serverIp = "127.0.0.1";
    serverPort = 53000;
    timeout = 15.0;
