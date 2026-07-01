@@ -29,7 +29,7 @@ int main(int argc, const char** argv)
    try
    {
       ConfigManager::getInstance().load();
-      if (!Loc::load(ConfigManager::getInstance().getLang()))
+      if (!Loc::load(ConfigManager::getInstance().getLangFolder() / ConfigManager::getInstance().getLang()))
       {
          std::cerr << "Failed to download language pack\n";
          return 0;
@@ -38,7 +38,7 @@ int main(int argc, const char** argv)
    catch(const std::runtime_error& e)
    {
       std::cerr << e.what() << '\n';
-      InputManager::waitForEnter();
+      return 0;
    }
    catch(const std::exception& e)
    {
