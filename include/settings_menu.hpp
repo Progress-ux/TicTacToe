@@ -10,6 +10,8 @@ private:
    std::string serverIp;
    unsigned short serverPort;
 
+   std::string username;
+
    std::string language;
    std::vector<std::string> langList;
 
@@ -20,6 +22,7 @@ private:
    
    void changeAddress();
    void changePort();
+   void changeUsername();
 
    void loadListLang();
    void showLanguageMenu();

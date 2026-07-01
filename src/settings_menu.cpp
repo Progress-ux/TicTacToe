@@ -14,7 +14,7 @@ void SettingsMenu::show()
    std::cout << Loc::get("settings_menu.address") << " " << serverIp << "\n";
    std::cout << Loc::get("settings_menu.port") << " " << serverPort << "\n";
 
-   std::cout << Loc::get("settings_menu.username") << " -- under development --\n";
+   std::cout << Loc::get("settings_menu.username") << " " << username << "\n";
 
    std::string formatLang = language;
    std::cout << Loc::get("settings_menu.language") << " " << formatLanguage(eraseLang(formatLang)) << "\n\n";
@@ -69,6 +69,15 @@ void SettingsMenu::changePort()
       break;
    }
    serverPort = new_port;
+   isChanged = true;
+}
+
+void SettingsMenu::changeUsername()
+{
+   std::string new_username;
+   std::cout << Loc::get("settings_menu.new_username") << " ";
+   InputManager::getUserInput(new_username, Loc::get("errors.addr_error_input"));
+   username = new_username;
    isChanged = true;
 }
 
@@ -131,6 +140,7 @@ void SettingsMenu::runLanguageMenu()
 
 void SettingsMenu::getSettingsFromConfig() 
 {
+   username = ConfigManager::getInstance().getUsername();
    serverIp = ConfigManager::getInstance().getServerIp();
    serverPort = ConfigManager::getInstance().getServerPort();
    language = ConfigManager::getInstance().getLang();
@@ -140,6 +150,7 @@ void SettingsMenu::applyChanges()
 {
    ConfigManager::getInstance().setServerIp(serverIp);
    ConfigManager::getInstance().setServerPort(serverPort);
+   ConfigManager::getInstance().setUsername(username);
    ConfigManager::getInstance().setLang(language);
    if (isLangChanged)
    {
@@ -205,7 +216,7 @@ void SettingsMenu::run()
 
       case 3: // Change username
       {
-         // TODO: Add new parameter to ConfigManager: username
+         changeUsername();
          break;
       }
 
