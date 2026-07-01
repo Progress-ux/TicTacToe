@@ -107,7 +107,7 @@
    },
    
    "network_game": {
-      "wait_opponent": "Waiting for opponent's move...",
+      "wait_opponent": "Waiting for opponent's move",
       "connect_broken": "The connection was broken.",
       "cheat_detect": "Cheat detected! Invalid move.",
       "conn_attempt": "Connect attempt:",
