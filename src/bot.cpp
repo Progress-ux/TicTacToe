@@ -11,11 +11,11 @@ int EasyBot::move(TicTacToe game)
    }
 }
 
-int HardBot::minimax(TicTacToe& game, bool isMax)
+int HardBot::minimax(TicTacToe& game, bool isMax, int depth, int alpha, int beta)
 {
    if (game.checkWin())
    {
-      return isMax ? -10 : 10;
+      return isMax ? -10 + depth : 10 - depth;
    }
    if (game.checkDraw())
    {
@@ -34,8 +34,14 @@ int HardBot::minimax(TicTacToe& game, bool isMax)
             simGame.move(i);
             simGame.switchPlayer();
 
-            int score = minimax(simGame, false);
+            int score = minimax(simGame, false, depth+1, alpha, beta);
             bestScore = std::max(bestScore, score);
+
+            alpha = std::max(alpha, bestScore);
+            if (beta <= alpha)
+            {
+               break;
+            }
          }
       }
       return bestScore;
@@ -51,8 +57,14 @@ int HardBot::minimax(TicTacToe& game, bool isMax)
             simGame.move(i);
             simGame.switchPlayer();
 
-            int score = minimax(simGame, true);
+            int score = minimax(simGame, true, depth+1, alpha, beta);
             bestScore = std::min(bestScore, score);
+
+            beta = std::min(beta, bestScore);
+            if (beta <= alpha)
+            {
+               break;
+            }
          }
       }
       return bestScore;
@@ -72,7 +84,7 @@ int HardBot::move(TicTacToe game)
          simGame.move(i);
          simGame.switchPlayer();
 
-         int score = minimax(simGame, false);
+         int score = minimax(simGame, false, 1, INT_MIN, INT_MAX);
          
          if (score > bestScore) 
          {
