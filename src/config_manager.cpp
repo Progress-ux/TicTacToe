@@ -24,6 +24,16 @@ bool ConfigManager::validationServerPort(int port)
    return port > 0 && port <= 65535; 
 }
 
+std::filesystem::path ConfigManager::getLangFolder() const
+{
+   return languageFolder;
+}
+
+void ConfigManager::setLangFolder(const std::filesystem::path &folder)
+{
+   languageFolder = folder;
+}
+
 std::string ConfigManager::getLang() const
 {
    return languageFilename;
@@ -66,16 +76,20 @@ void ConfigManager::load()
       return;
    }
 
-   if(!data.contains("network") || !data["network"].is_object() || !data.contains("language"))
+   if(!data.contains("network") || !data["network"].is_object() || !data.contains("language") || !data["language"].is_object())
    {
       resetToDefault();
+      save();
       return;
    }
 
    const auto& network = data["network"];
+   const auto& language = data["language"];
 
    std::string tempServerIp = network.value("serverIp", "127.0.0.1");
    int tempServerPort = network.value("serverPort", 53000);
+   std::string tempFolderPath = language.value("path", "");
+   std::string tempCurrentLanguage = language.value("current", "");
 
    if (!validationServerIp(tempServerIp))
    {
@@ -91,11 +105,27 @@ void ConfigManager::load()
       throw std::runtime_error("Incorrect server Port, please check config");
    }
 
+   if (tempFolderPath.empty() || !std::filesystem::is_directory(tempFolderPath))
+   {
+      resetToDefault();
+      save();
+      throw std::runtime_error("Incorrect path language folder, please check config");
+   }
+
+   std::filesystem::path fullLangPath = std::filesystem::path(tempFolderPath) / tempCurrentLanguage;
+   
+   if (tempCurrentLanguage.empty() || !std::filesystem::exists(fullLangPath))
+   {
+      resetToDefault();
+      save();
+      throw std::runtime_error("Language not found, please check config");
+   }
+
    serverIp = tempServerIp;
    serverPort = static_cast<unsigned short>(tempServerPort);
    timeout = network.value("timeout", 15.0);
-
-   languageFilename = data["language"];
+   languageFolder = tempFolderPath;
+   languageFilename = tempCurrentLanguage;
 }
 
 void ConfigManager::save()
@@ -129,7 +159,8 @@ void ConfigManager::save()
    data["network"]["serverPort"] = serverPort;
    data["network"]["timeout"] = timeout;
    
-   data["language"] = languageFilename;
+   data["language"]["path"] = languageFolder;
+   data["language"]["current"] = languageFilename;
 
    file << data.dump(4) << std::endl;
 }
@@ -140,5 +171,6 @@ void ConfigManager::resetToDefault()
    serverPort = 53000;
    timeout = 15.0;
 
-   languageFilename = "lang/eng.json";
+   languageFolder = "lang/";
+   languageFilename = "eng.json";
 }

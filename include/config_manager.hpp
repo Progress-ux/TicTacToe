@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <filesystem>
 
 class ConfigManager
 {
@@ -9,6 +10,7 @@ private:
    unsigned short serverPort;
    float timeout;
 
+   std::filesystem::path languageFolder;
    std::string languageFilename;
 
    ConfigManager() = default;
@@ -29,6 +31,9 @@ public:
 
    float getTimeout() const { return timeout; }
    void setTimeout(float timeout) { this->timeout = timeout; }
+
+   std::filesystem::path getLangFolder() const;
+   void setLangFolder(const std::filesystem::path& folder);
 
    std::string getLang() const;
    void setLang(const std::string& filename);
