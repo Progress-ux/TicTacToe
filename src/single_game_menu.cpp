@@ -124,11 +124,7 @@ void SingleGameMenu::runGame()
       }
       else
       {
-         while(true)
-         {
-            move = bot->move(game);
-            if (game.canMove(move)) break;
-         }
+         move = bot->move(game);
       }
 
       game.move(move);

@@ -4,7 +4,11 @@
 
 int EasyBot::move(TicTacToe game)
 {
-   return distrib(gen);
+   while (true)
+   {
+      int m = distrib(gen);
+      if (game.canMove(m)) return m;  
+   }
 }
 
 int HardBot::minimax(TicTacToe& game, bool isMax)
