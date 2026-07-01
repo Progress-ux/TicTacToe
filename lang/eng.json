@@ -74,7 +74,8 @@
       "unsaved_settings": "All unsaved settings will be reset. Are you sure you want to exit? [y/N]:",
 
       "new_addr": "New address:",
-      "new_port": "New port:"
+      "new_port": "New port:",
+      "new_username": "New username:"
    },
 
    "language_menu" : {
