@@ -27,6 +27,7 @@ class NetworkManager
 {
 protected: 
    sf::TcpSocket socket;
+   std::string opponentUsername;
 public:
    virtual ~NetworkManager() = default;
 
@@ -50,6 +51,8 @@ public:
       }
       return std::nullopt;
    }
+
+   std::string getOpponentName() const { return opponentUsername; }
 };
 
 class Server : public NetworkManager
@@ -57,7 +60,7 @@ class Server : public NetworkManager
 private:
    sf::TcpListener listener;
 public:
-   NetworkStatus start(unsigned short port)
+   NetworkStatus start(unsigned short port, const std::string& username)
    {
       if (listener.listen(port) != sf::Socket::Status::Done) 
       {
@@ -67,15 +70,23 @@ public:
       {
          return NetworkStatus::Error_Disconnected;
       }
+
+      sf::Packet packetRx;
+      if (socket.receive(packetRx) != sf::Socket::Status::Done) return NetworkStatus::Error_Disconnected;
+      packetRx >> opponentUsername;
+
+      sf::Packet packetTx;
+      packetTx << username;
+      if (socket.send(packetTx) != sf::Socket::Status::Done) return NetworkStatus::Error_Disconnected;
+
       return NetworkStatus::Success;
    }
-
 };
 
 class Client : public NetworkManager
 {
 public:
-   NetworkStatus connect(const std::string& ipString, unsigned short port, float timeout) 
+   NetworkStatus connect(const std::string& ipString, unsigned short port, float timeout, const std::string& username) 
    {
       auto listIP = sf::Dns::resolve(ipString);
 
@@ -87,6 +98,14 @@ public:
       sf::IpAddress ip = listIP->front();
       auto status = socket.connect(ip, port, sf::seconds(timeout));
 
+      sf::Packet packetTx;
+      packetTx << username;
+      if (socket.send(packetTx) != sf::Socket::Status::Done) return NetworkStatus::Error_ServerUnavailable;
+
+      sf::Packet packetRx;
+      if (socket.receive(packetRx) != sf::Socket::Status::Done) return NetworkStatus::Error_ServerUnavailable;
+      packetRx >> opponentUsername;
+      
       if (status == sf::Socket::Status::Done) 
       {
          return NetworkStatus::Success;
@@ -95,7 +114,8 @@ public:
       {
          return NetworkStatus::Error_ServerUnavailable;
       }
-      
+
+
       return NetworkStatus::Error_Disconnected;
    }
 };
