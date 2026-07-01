@@ -35,8 +35,9 @@
    "main_menu": {
       "title": "=== Tic Tac Toe ===",
       "single": "1. Play Single Player",
-      "multi": "2. Play Multi Player",
-      "settings": "3. Settings",
+      "double": "2. Play with a friend on the same device",
+      "multi": "3. Play Multi Player",
+      "settings": "4. Settings",
       "exit": "0. Exit"
    },
 
