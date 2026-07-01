@@ -77,9 +77,15 @@ class Client : public NetworkManager
 public:
    NetworkStatus connect(const std::string& ipString, unsigned short port, float timeout) 
    {
-      auto ip = sf::IpAddress::resolve(ipString);
-      if (!ip.has_value()) return NetworkStatus::Error_InvalidAddress;
-      auto status = socket.connect(ip.value(), port, sf::seconds(timeout));
+      auto listIP = sf::Dns::resolve(ipString);
+
+      if (!listIP.has_value() || listIP->empty())
+      {
+         return NetworkStatus::Error_InvalidAddress;
+      }
+
+      sf::IpAddress ip = listIP->front();
+      auto status = socket.connect(ip, port, sf::seconds(timeout));
 
       if (status == sf::Socket::Status::Done) 
       {
