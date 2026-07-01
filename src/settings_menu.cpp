@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-void SettingsMenu::show() const
+void SettingsMenu::show() 
 {
    std::cout << Loc::get("settings_menu.title") << "\n\n";
    
@@ -15,7 +15,9 @@ void SettingsMenu::show() const
    std::cout << Loc::get("settings_menu.port") << " " << serverPort << "\n";
 
    std::cout << Loc::get("settings_menu.username") << " -- under development --\n";
-   std::cout << Loc::get("settings_menu.language") << " " << "\n\n";
+
+   std::string formatLang = language;
+   std::cout << Loc::get("settings_menu.language") << " " << formatLanguage(eraseLang(formatLang)) << "\n\n";
 
    std::cout << Loc::get("settings_menu.change_addr") << "\n";
    std::cout << Loc::get("settings_menu.change_port") << "\n\n";
@@ -70,20 +72,113 @@ void SettingsMenu::changePort()
    isChanged = true;
 }
 
+void SettingsMenu::loadListLang()
+{
+   std::filesystem::path folder = ConfigManager::getInstance().getLangFolder();
+
+   langList.clear();
+
+   for (const auto& entry : std::filesystem::directory_iterator(folder)) 
+   {
+      if (entry.is_regular_file() && entry.path().extension() == ".json") 
+      {
+         langList.push_back(entry.path().stem().string());
+      }
+   }
+}
+
+void SettingsMenu::showLanguageMenu()
+{
+   std::cout << Loc::get("language_menu.title") << "\n\n";
+
+   std::cout << Loc::get("language_menu.current") << " " << formatLanguage(eraseLang(ConfigManager::getInstance().getLang())) << "\n\n";
+
+   std::cout << Loc::get("language_menu.load") << "\n\n";
+
+   for (int i = 0; i < langList.size(); ++i) 
+   {
+      std::cout << i + 1 << ". " << formatLanguage(langList[i]) << "\n";
+   } 
+
+   std::cout << "\n" << Loc::get("language_menu.back")<< "\n";
+}
+
+void SettingsMenu::runLanguageMenu()
+{
+   loadListLang();
+   while (true)
+   {
+      InputManager::clearScreen();
+      showLanguageMenu();
+      
+      std::cout << Loc::get("input.enter_choice") << " ";
+      int number = InputManager::getNumber();
+
+      if (number == 0) return;
+      if (number < 0 || number > langList.size()) 
+      {
+         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
+         InputManager::waitForEnter();
+         continue;
+      }
+
+      language = langList[number-1] + ".json";
+      isChanged = true;
+      isLangChanged = true;
+      return;
+   }
+}
+
 void SettingsMenu::getSettingsFromConfig() 
 {
    serverIp = ConfigManager::getInstance().getServerIp();
    serverPort = ConfigManager::getInstance().getServerPort();
+   language = ConfigManager::getInstance().getLang();
 }
 
 void SettingsMenu::applyChanges() 
 {
    ConfigManager::getInstance().setServerIp(serverIp);
    ConfigManager::getInstance().setServerPort(serverPort);
+   ConfigManager::getInstance().setLang(language);
+   if (isLangChanged)
+   {
+      Loc::load(ConfigManager::getInstance().getLangFolder() / language);
+      isLangChanged = false;
+   }
    ConfigManager::getInstance().save();
 }
 
-SettingsMenu::SettingsMenu() : isChanged{false}
+std::string SettingsMenu::formatLanguage(std::string filename)
+{
+   for (char& c : filename)
+   {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+   }
+   return filename;
+}
+
+std::string SettingsMenu::formatLanguage(const std::filesystem::directory_entry& filename)
+{
+   std::string formatFilename = filename.path().stem().string();
+
+   for (char& c : formatFilename)
+   {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+   }
+   return formatFilename;
+}
+
+std::string SettingsMenu::eraseLang(std::string filename)
+{
+   if (filename.length() >= 5)
+   {
+      filename.resize(filename.length() - 5);
+   }
+   return filename;
+}
+
+SettingsMenu::SettingsMenu() : isChanged{false}, isLangChanged{false}
 {
 }
 
@@ -116,7 +211,7 @@ void SettingsMenu::run()
 
       case 4: // Change language
       {
-         // TODO: Add new parameter to ConfigManager: language
+         runLanguageMenu();
          break;
       }
 
