@@ -1,101 +1,38 @@
-#include "config_manager.hpp"
-#include "input_manager.hpp"
-#include "settings_menu.hpp"
-#include "language_manager.hpp"
+#include <AppCore/AppCore.h>
 
-#include "single_game_menu.hpp"
-#include "double_game_menu.hpp"
-#include "multi_game_menu.hpp"
+using namespace ultralight;
 
-#include <limits>
-#include <iostream>
+class MyWindowListener : public WindowListener {
+private:
+   RefPtr<Overlay> overlay_;
+public:
+   MyWindowListener(RefPtr<Overlay> overlay) : overlay_(overlay) {}
+   
+   void OnResize(Window* window, uint32_t width, uint32_t height) override {
+      overlay_->Resize(width, height);
+   }
 
-#if defined(_WIN32)
-#include <windows.h>
-#endif
+   void OnClose(Window* window) override { 
+      App::instance()->Quit();
+   }
+};
 
-void showMainMenu()
+int main(int argc, char const *argv[])
 {
-   std::cout << Loc::get("main_menu.title") << "\n\n";
-   std::cout << Loc::get("main_menu.single") << "\n";
-   std::cout << Loc::get("main_menu.double") << "\n";
-   std::cout << Loc::get("main_menu.multi") << "\n\n";
-   std::cout << Loc::get("main_menu.settings") << "\n\n";
-   std::cout << Loc::get("main_menu.exit") << "\n\n";
-}
+   auto app = App::Create();
 
-int main(int argc, const char** argv) 
-{
-   try
-   {
-      ConfigManager::getInstance().load();
-      if (!Loc::load(ConfigManager::getInstance().getLangFolder() / ConfigManager::getInstance().getLang()))
-      {
-         std::cerr << "Failed to download language pack\n";
-         return 0;
-      }
-   }
-   catch(const std::runtime_error& e)
-   {
-      std::cerr << e.what() << '\n';
-      return 0;
-   }
-   catch(const std::exception& e)
-   {
-      std::cerr << e.what() << '\n';
-      InputManager::waitForEnter();
-   }
+   auto window = Window::Create(app->main_monitor(), 800, 600, false, 
+      kWindowFlags_Titled | kWindowFlags_Resizable);
 
-#if defined(_WIN32)
-   SetConsoleCP(65001);
-   SetConsoleOutputCP(65001);
-#endif
+   window->SetTitle("TicTacToe UI Test");
 
-   while(true)
-   {
-      InputManager::clearScreen();
-      showMainMenu();
-      std::cout << Loc::get("input.enter_choice") << " ";
-      int number = InputManager::getNumber();
+   auto overlay = Overlay::Create(window, window->width(), window->height(), 0, 0);
 
-      switch (number)
-      {
-      case 1: // Single game
-         {
-            SingleGameMenu menu;
-            menu.runPlayMenu();
-            break;
-         }
-      case 2: // Double game
-         {
-            DoubleGameMenu menu;
-            menu.runPlayGame();
-            break;
-         }
-      case 3: // Multiplayer game
-         {
-            MultiGameMenu menu;
-            menu.runPlayMenu();
-            break;
-         }
-      case 4: // Settings menu
-         {
-            SettingsMenu menu;
-            menu.run();
-            break;
-         }
-      case 0: // Exit
-         {
-            InputManager::clearScreen();
-            return 0;
-         }
-      
-      default:
-         std::cout << Loc::get("errors.enter_number_from_list") << "\n";
-         InputManager::waitForEnter();
-         break;
-      }
-   }
+   overlay->view()->LoadURL("file:///index.html");
+
+   window->set_listener(new MyWindowListener(overlay));
+
+   app->Run();
 
    return 0;
 }

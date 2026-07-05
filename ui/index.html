@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TicTacToe</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <script defer src="js/main.js"></script>
+</head>
+
+<body>
+
+  <div id="menu-screen" class="screen active">
+    <h1 id="title-text">TicTacToe</h1>
+    <button class="btn" onclick="startSingleGame()" id="btn-vs-bot">Играть с ботом</button>
+    <button class="btn" onclick="openNetworkMenu()" id="btn-network">Сетевая игра</button>
+    <button class="btn" onclick="toggleLanguage()" id="btn-lang">Язык: RUS</button>
+  </div>
+
+  <div id="game-screen" class="screen">
+    <div class="status" id="game-status">Ход игрока X</div>
+    <div class="grid">
+      <div class="cell" onclick="cellClicked(0)"></div>
+      <div class="cell" onclick="cellClicked(1)"></div>
+      <div class="cell" onclick="cellClicked(2)"></div>
+      <div class="cell" onclick="cellClicked(3)"></div>
+      <div class="cell" onclick="cellClicked(4)"></div>
+      <div class="cell" onclick="cellClicked(5)"></div>
+      <div class="cell" onclick="cellClicked(6)"></div>
+      <div class="cell" onclick="cellClicked(7)"></div>
+      <div class="cell" onclick="cellClicked(8)"></div>
+    </div>
+    <button class="btn" onclick="backToMenu()" id="btn-back">Выйти</button>
+  </div>
+</body>
+
+</html>
